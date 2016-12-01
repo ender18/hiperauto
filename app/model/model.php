@@ -1,6 +1,7 @@
 <?php
 
 class Model {
+    
     private $connection;
 
     public function connect(){
