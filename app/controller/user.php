@@ -6,17 +6,18 @@ class User extends Controller {
 
     private $userModel;
     private $view;
-
+    private $d;
 
     public function __construct() {
         $this->userModel = new UserModel();
         $this->view = $this->getTemplate("./app/views/index.html");
     }
 
-    public function index() {
+    public function index($entidadDTO) {
         $this->view = $this->renderView($this->view, "{{TITLE}}","REGISTRAR ENTIDAD");
         $this->view = $this->renderView($this->view, "{{CONTENT}}","NOMBRE ENTIDAD");
-        $this->showView($this->view);            
+        $this->showView($this->view);   
+        echo $entidadDTO->getNombre();
     }
 
     public function inicioSesion() {

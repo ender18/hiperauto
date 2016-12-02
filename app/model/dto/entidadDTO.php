@@ -17,6 +17,10 @@ class EntidadDTO{
         this->cod_sucursal = $cod_sucursal;
     }
     
+    public function __construct(){
+        
+    }
+
     public function getCod_entidad(){
         return $this->cod_entidad;
     }

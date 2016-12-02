@@ -8,8 +8,6 @@ class Router {
     public function __construct() {
         $this->user = new User();
         $this->accion = new Accion();
-        
-
     }
 
     public function router() {
@@ -38,7 +36,7 @@ class Router {
                     break;
             }  
         } else {
-            $this->user->index();  
+             $this->user->index(new EntidadDTO());  
         }
     }
 
