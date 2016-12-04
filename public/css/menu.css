@@ -26,7 +26,7 @@ ul.navig li ul {
 	position: absolute;
 	top: 33px;
 	text-align: center;
-	border-top: 1px solid #9ccc65;
+	border-top: 1px solid #045FB4;
 	padding: 15px 0px;
 	background: #eee;
 	z-index: 9999;
@@ -59,7 +59,7 @@ ul.navig li a {
 }
 ul.navig li a.sup{
 	color: #ffffff;
-	background: #579526;
+	background: #045FB4;
 	font-weight:700;
 }
 ul.navig li a:hover{
@@ -116,7 +116,7 @@ ul.navig li a {
 	color: #333333;
 }
 ul.navig li a:hover{
-	color:#9ccc65;
+	color:#045FB4;
 }
 span.menu {
 	display: block;
@@ -154,7 +154,7 @@ ul.navig li:nth-of-type(3) {
 /*----*/
 
 .news-bottom ul li a:hover, .news-bottom ul li a.active {
-	background: #579526;
+	background: #045FB4;
 	text-decoration: none;
 	color: #fff;
 	transition: 0.5s all;

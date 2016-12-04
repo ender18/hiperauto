@@ -36,7 +36,7 @@ class Router {
                     break;
             }  
         } else {
-             $this->user->index(new EntidadDTO());  
+             $this->user->index();  
         }
     }
 

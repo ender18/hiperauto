@@ -13,11 +13,11 @@ class User extends Controller {
         $this->view = $this->getTemplate("./app/views/index.html");
     }
 
-    public function index($entidadDTO) {
-        $this->view = $this->renderView($this->view, "{{TITLE}}","REGISTRAR ENTIDAD");
-        $this->view = $this->renderView($this->view, "{{CONTENT}}","NOMBRE ENTIDAD");
-        $this->showView($this->view);   
-        echo $entidadDTO->getNombre();
+    public function index() {
+        $inicio = $this->getTemplate("./app/views/inicio.html");
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Inicio");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $inicio);
+        $this->showView($this->view);
     }
 
     public function inicioSesion() {
