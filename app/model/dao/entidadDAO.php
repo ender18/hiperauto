@@ -30,6 +30,17 @@ class EntidadDAO extends Model{
         $this->terminate();
         return $query;
     }
+
+    public function buscarSucursal($id){
+        $consulta = "SELECT * FROM entidad where (codigo=".$id.")";
+        $array = array();
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+        $row =mysqli_fetch_array($query);
+        array_unshift($array, new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 0));
+        return $array;
+    }
     
     public function listarSucursales(){
         $consulta = "SELECT * FROM entidad WHERE (cod_sucursal=0)";
@@ -43,6 +54,19 @@ class EntidadDAO extends Model{
         }
         return $array;
     }
+
+    public function editarSucursal($form, $id){
+        if($this->buscarEntidad($id)){
+            return "ERROR AL EDITAR! EL CODIGO DE ESA SUCURSAL YA EXISTE";
+        }
+        $insert = "UPDATE entidad SET codigo='".$EntidadDTO->getCod_entidad()."', nombre='".$EntidadDTO->getNombre()."','".
+        $EntidadDTO->getDireccion()."', '".$EntidadDTO->getCiudad()."', '".$EntidadDTO->getCod_sucursal()
+        $this->connect();
+        $this->query($insert);
+        $this->terminate();
+        return "LA SUCURSAL FUE EDITADA EXITOSAMENTE";
+    }
+
 
     public function listarConcesionarios(){
         $consulta = "SELECT * FROM Entidad WHERE cod_sucursal is not null";
@@ -76,6 +100,7 @@ class EntidadDAO extends Model{
             $sucursal = new EntidadDTO();
         }
     }
+
 
     public function buscarEntidad($codigo){
         $exito = false;

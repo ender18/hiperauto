@@ -20,6 +20,14 @@ class UserModel extends Model {
         return $this->entidadDAO->listarSucursales();
     } 
 
+    function buscarSucursal($id){
+        return $this->entidadDAO->buscarSucursal($id);
+    }
+
+    function editarSucursalFormulario($form){
+        $sucursal = new EntidadDTO($form['codigo'], $form['nombre'] , $form['direccion'], $form['ciudad'], null);
+        return $this->entidadDAO->editarSucursal($sucursal, $form['codigoh']);
+    }
 
 
 

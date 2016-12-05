@@ -31,7 +31,7 @@ class User extends Controller {
         $mensaje = $this->userModel->registrarSucursal($form);
         $this->agregarSucursal();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
-          }
+        }
 
     public function consultarSucursales() {
         $registroSucursal = $this->getTemplate("./app/views/accion/listaSucursales.html");
@@ -56,12 +56,22 @@ class User extends Controller {
          }
 
      public function editarSucursal($id){
-
-
-
-
+         $tablaHtml=$this->getTemplate("./app/views/accion/editaSucursal.html");
+         $element = $this->userModel->buscarSucursal($id);
+         $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element[0]->getCod_entidad());
+         $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element[0]->getNombre());
+         $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element[0]->getDireccion() );
+         $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element[0]->getCiudad());
+         $this->view = $this->renderView($this->view, "{{TITULO}}","Editar Sucursal");
+         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtml);
+         $this->showView($this->view);
      }
 
+     public function editarSucursalFormulario($formulario){
+        $mensaje = $this->userModel->editarSucursalFormulario($form);
+        $this->consultarSucursales();
+        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+     }
 
 
     public function inicioSesion() {

@@ -32,7 +32,11 @@ class Router {
                 case "agregarSucursalFormulario":
                     $this->user->agregarFormSucursal($_POST);
                     break;
-                                    
+
+                case "editarSucursalFormulario":
+                    $this->user->editarSucursalFormulario($POST);
+                    break;
+                    
                 default:
                     header("Location:index.php");
                     break;
