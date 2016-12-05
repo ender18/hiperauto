@@ -65,7 +65,7 @@ body a{
 }
 .menu li a:hover ,.menu li.active a{
    color:#fff;
-   background:#045FB4 !important;
+   background: #FF0000 !important;
 } 
 .toggleMenu {
 	display:  none;
@@ -207,7 +207,7 @@ body a{
 .banner_btn:hover {
 	text-decoration:none;
 	color:#fff;
-	background:#045FB4;
+	background:#5882FA;
 }
 /*--content--*/
 .content_top{
@@ -245,7 +245,7 @@ i.home{
 }
 .flag_desc h3 a:hover{
 	text-decoration:none;
-	color:#045FB4;
+	color:#5882FA;
 }
 div.flag_desc {
 	float: left;
@@ -313,7 +313,7 @@ ul.test_box li.test_desc p {
 	font-size: 1em;
 	cursor: pointer;
 	border: none;
-	background: #5882FA;
+	background: #FF0000;
 	color: #fff;
 	text-transform: uppercase;
 	text-decoration: none;
@@ -329,7 +329,7 @@ ul.test_box li.test_desc p {
 	font-weight: 400;
 }
 .content_btn:hover{
-	background: #5882FA;
+	background: #FF0000;
 	text-decoration:none;
 	color:#fff;
 }
@@ -403,7 +403,7 @@ h2.resp-accordion {
 	font-size:1em;
 	margin: 0px;
 	padding: 10px 15px;
-	background:#5882FA;
+	background:#FF0000;
 	margin:10px 0;
 	color:#fff;
 }
@@ -440,7 +440,7 @@ h2.resp-accordion {
 }
 }
 .facts h4 a{
-	color:#5882FA;
+	color:#FF0000;
 	text-decoration: none;
 	font-weight: 600;
 	font-size: 1.2em;
@@ -1397,7 +1397,7 @@ table{
 
 #titulo{
 	text-align:center;
-    color:#5882FA;
+    color:#000;
 }
 	
 	

@@ -1,59 +1,76 @@
-
-<div class='container contact'>    
+<div class='container contact'>
 
     <div id="titulo">
-        <h2 ><strong>Registro de x elemento<strong></h2>
+        <hr>
+        <h2><strong>Registro de Sucursal</strong></h2>
    
                 <div class="container container-fixed" >
                     <hr>
 
                     <form role="form" method="post" action="index.php" style="margin-right:50px">
-                        <input type="hidden" name="mode" value="registrar-datos">
-                        <input type="hidden" name="Asesor" value="{{ASESOR}}">
-                        <div class="row setup-content" id="step-1" >
+                        <input type="hidden" name="mode" value="agregarSucursalFormulario">
                             <div class="col-xs-12">
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <div class="form-group">
-
+                                        
 
                                         <div class="row">
-
-                                            <div class="col-md-2"><label>Nombres:</label></div>
-                                            <div class="col-md-4"><input type="text" class="form-control" name="Nombres"></div>
-                                            <div class="col-md-2"><label>Apellidos:</label></div>
-                                            <div class="col-md-4"><input type="text" class="form-control" name="Apellidos"></div>
+                                            
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2"><label>Codigo:</label></div>
+                                            <div class="col-md-4"><input type="number" min="1" max="99999999999999999999"/ class="form-control" name="codigo"></div>
+                                            
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-md-2"><label>CC:</label></div>
-                                            <div class="col-md-4" ><input type="number" name="CC" class="form-control" min="0"></div>
-
-
-                                            <div class="col-md-3"><label>Posicion que asumira en la empresa:</label></div>
-                                            <div class="col-md-3"><select class="form-control" name="Posicion">
-                                                <option value="dueño">Dueño</option>
-                                                <option value="socio">Socio</option>
-                                                <option value="otro">Otro</option>
-                                                </select></div>
+                                            
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2"><label>Nombre:</label></div>
+                                            <div class="col-md-4"><input type="text" class="form-control" name="nombre"></div>
+                                            
                                         </div>
-                                        <br> 
+                                        
+                                        <br>
                                         <div class="row">
-                                            <div class="col-md-2"><label>Numero telefonico:</label></div>
-                                            <div class="col-md-4"><input type="number" name="Telefono" class="form-control" min="0"></div>
-                                            <div class="col-md-2"><label>Celular:</label></div>
-                                            <div class="col-md-4"><input type="number" class="form-control" name="Celular" min="0"></div>
+                                            
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2"><label>Ciudad:</label></div>
+                                            <div class="col-md-4"><input type="text" class="form-control" name="ciudad"></div>
+                                            
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2"><label>Dirección:</label></div>
+                                            <div class="col-md-4"><input type="text" class="form-control" name="direccion"></div>
+                                            
                                         </div>
                                         <hr>
-                                        <div style="text-align: center">
-                                        <button   class="btn" type="submit">Registrar</button>
+
+                                        <div class"row">
+                                            <div class="col-md-7"></div>
+                                            <div class="col-md-3"><button   class="btn btn-primary " type="submit">Registrar</button></div>
                                         </div>
                                     </div>
-                                    <br><br><br><br>
+                                    <br><br>
+                                    <hr>
                                 </div>
+
+                                <div class="col-md-1">
+                                    <div class="row">
+                                            
+                                            <div class="col-md-12">
+                                            <img src="public/images/sucursal2.png">
+
+                                            </div>
+
                             </div>
-                        </div>
-                          
+                            </div>
+
+                                    
+                            </div>                          
                     </form>
                 </div>
-                </div>
-        </div> 
+        </div>
+</div>

@@ -13,15 +13,11 @@ class EntidadDTO{
         $this->cod_entidad = $cod_entidad;
         $this->nombre = $nombre;
         $this->direccion = $direccion;
-        this->ciudad = $ciudad;
-        this->cod_sucursal = $cod_sucursal;
+        $this->ciudad = $ciudad;
+        $this->cod_sucursal = $cod_sucursal;
     }
     
-    public function __construct(){
-        
-    }
-
-    public function getCod_entidad(){
+       public function getCod_entidad(){
         return $this->cod_entidad;
     }
     
@@ -42,7 +38,7 @@ class EntidadDTO{
     }
     
     public function setDireccion($direccion){
-        $this->direccion $direccion;
+        $this->direccion=$direccion;
     }
     
     public function getCiudad(){

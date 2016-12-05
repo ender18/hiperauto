@@ -20,6 +20,30 @@ class User extends Controller {
         $this->showView($this->view);
     }
 
+    public function agregarSucursal() {
+        $registroSucursal = $this->getTemplate("./app/views/accion/registroAccion.html");
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Registrar Sucursal");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroSucursal);
+        $this->showView($this->view);
+    }
+
+    public function agregarFormSucursal($form) {
+        $mensaje = $this->userModel->registrarSucursal($form);
+        $this->agregarSucursal();
+        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+          }
+
+    public function consultarSucursales() {
+        $registroSucursal = $this->getTemplate("./app/views/accion/listaSucursales.html");
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Registrar Sucursal");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroSucursal);
+        $this->showView($this->view);
+    }
+
+
+
+
+
     public function inicioSesion() {
         $menu;
         $login = $this->getTemplate("./app/views/login.html");

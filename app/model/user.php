@@ -1,25 +1,28 @@
 <?php
 require_once "./app/model/model.php";
+include_once "./app/model/dto/entidadDTO.php";
+include_once "./app/model/dao/entidadDAO.php";
 
 class UserModel extends Model {
 
+    private $entidadDAO;
 
-    function login ($usuario, $password) {
-        $this->connect();
-        $consulta = "SELECT * FROM user WHERE username = '".$usuario."' AND password = '".$password."'";
-        $query = $this->query($consulta);
-        $this->terminate();
-        while($row = mysqli_fetch_array($query)){
-            //agrega el id a la session
-            $_SESSION["user_id"] = $row["id"];
-            //agrega la hora en la que inicio sesion
-            $_SESSION["ultimoAcceso"] = time();
-            return true;
-        }
-        return false;
-       
-
+    public function __construct() {
+        $this->entidadDAO = new EntidadDAO();
     }
+
+    function registrarSucursal($form){
+        $sucursal = new EntidadDTO($form['codigo'], $form['nombre'] , $form['direccion'], $form['ciudad'], null);
+        return $this->entidadDAO->agregarSucursal($sucursal);
+    }
+
+    function mostrarSucursales(){
+        return $this->entidadDAO->listarSucursales();
+    } 
+
+
+
+
 }
 
 ?>

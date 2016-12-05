@@ -18,7 +18,7 @@ h2 {
     font-size: 1.1em;
     text-align: center;
     padding: 1.2em;
-    background: #045FB4;
+    background: #000000;
     color: #fff;
     font-weight: 200;
     letter-spacing: 10px;
@@ -63,7 +63,7 @@ h2 {
 }
 
 .styled-input label {
-    color: #9ccc65;
+    color: #045FB4;
     padding: 0.8em 1em;
     position: absolute;
     top: 0;
@@ -151,7 +151,7 @@ h2 {
     color: #fff;
 }
 .wthree-text ul li a:hover{
-    color: #579526;
+    color: #045FB4;
 }
 .agileits-bottom{
 	position:relative;

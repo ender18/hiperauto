@@ -3,22 +3,20 @@
 class Router {
 
     public $user;
-    public $accion;
 
     public function __construct() {
         $this->user = new User();
-        $this->accion = new Accion();
     }
 
     public function router() {
         if(isset($_GET["mode"])) {
             switch ($_GET["mode"]) {
-                case "registrar":
-                    $this->accion->registrar();
+                case "agregarSucursal":
+                    $this->user->agregarSucursal();
                     break;
                 
-                case "consultar":
-                    $this->accion->consultar();
+                case "consultarSucursales":
+                    $this->user->consultarSucursales();
                     break;
                     
                 default:
@@ -27,8 +25,8 @@ class Router {
             }
         } else if(isset($_POST["mode"])) {
             switch ($_POST["mode"]) {
-                case "registrar-datos":
-                    $this->accion->agregarFormRegistrar($_POST);
+                case "agregarSucursalFormulario":
+                    $this->user->agregarFormSucursal($_POST);
                     break;
                                     
                 default:
