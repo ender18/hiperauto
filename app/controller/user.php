@@ -68,7 +68,7 @@ class User extends Controller {
      }
 
      public function editarSucursalFormulario($formulario){
-        $mensaje = $this->userModel->editarSucursalFormulario($form);
+        $mensaje = $this->userModel->editarSucursalFormulario($formulario);
         $this->consultarSucursales();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
      }

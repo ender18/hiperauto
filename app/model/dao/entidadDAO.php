@@ -55,12 +55,17 @@ class EntidadDAO extends Model{
         return $array;
     }
 
-    public function editarSucursal($form, $id){
-        if($this->buscarEntidad($id)){
-            return "ERROR AL EDITAR! EL CODIGO DE ESA SUCURSAL YA EXISTE";
+    public function editarSucursal($EntidadDTO, $id){
+
+        if($id!=$EntidadDTO->getCod_entidad()){
+            if($this->buscarEntidad($EntidadDTO->getCod_entidad())){
+                 return "ERROR AL EDITAR! EL NUEVO CODIGO DE ESA SUCURSAL YA ESTA ASOCIADO CON OTRA, INTENTELO DE NUEVO";
+            }
         }
-        $insert = "UPDATE entidad SET codigo='".$EntidadDTO->getCod_entidad()."', nombre='".$EntidadDTO->getNombre()."','".
-        $EntidadDTO->getDireccion()."', '".$EntidadDTO->getCiudad()."', '".$EntidadDTO->getCod_sucursal()
+        $insert = "UPDATE entidad SET codigo='".$EntidadDTO->getCod_entidad()."', nombre='".$EntidadDTO->getNombre()."', direccion='".
+        $EntidadDTO->getDireccion()."', ciudad='".$EntidadDTO->getCiudad()."', cod_sucursal='".$EntidadDTO->getCod_sucursal()."'
+        WHERE codigo =".$id."";
+        echo $insert;
         $this->connect();
         $this->query($insert);
         $this->terminate();
@@ -104,7 +109,6 @@ class EntidadDAO extends Model{
         $this->connect();
         $consulta= $this->query($queryExist);
         $extraido= mysqli_fetch_array($consulta);
-
         if( $extraido['conteo'] != 0){
             $this->terminate();
             return true;

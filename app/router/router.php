@@ -34,7 +34,7 @@ class Router {
                     break;
 
                 case "editarSucursalFormulario":
-                    $this->user->editarSucursalFormulario($POST);
+                    $this->user->editarSucursalFormulario($_POST);
                     break;
                     
                 default:
