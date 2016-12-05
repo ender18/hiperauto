@@ -18,7 +18,7 @@
 
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="busqueda_exitosa">
 						{{CONTENIDO}}
 					</tbody>
 				</table>
@@ -26,3 +26,24 @@
 		</div>
 	</div>
 </div>
+
+<script>
+				  function realizarAjax(idEntidad) {
+					var url = "index.php?mode=eliminarSucursal1&id="+idEntidad;
+                    //var con el id del elemento html en que desea insertar la info
+                    //despues del procesamiento
+                    var id = "#busqueda_exitosa";
+                    //llama a la funcion ajax
+
+                    $.ajax({
+						cache: false,
+                        url: url,
+                        type: 'GET',
+                        //esta funncion se ejecuta cuando el php a terminado de procesar
+                        //con el resultado e inserta el resultado en algun elemento html
+                        success: function (array) {
+                            $(id).html(array);
+                        }
+                    });
+                }
+</script>

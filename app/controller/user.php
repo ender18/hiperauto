@@ -45,9 +45,11 @@ class User extends Controller {
             $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getNombre());
             $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getDireccion() );
             $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getCiudad());
-            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", "<a href='"."index.php?mode=editarSucursal&id=".$element->getCod_entidad()."'>
-            <button type="."'button'"." class="."'btn btn-warning'".">Editar</button></a>&nbsp <button type="."'button'"." class="."'btn btn-danger'"."
-            >Borrar</button>");
+            $var1="<a href='index.php?mode=editarSucursal&id=".$element->getCod_entidad()."'>
+            <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+            <button onclick='realizarAjax(".$element->getCod_entidad().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+
         $tablaHtmlCompleta.=$tablaHtml;
         }
         $this->view = $this->renderView($this->view, "{{TITULO}}","Listado Sucursales");
@@ -71,6 +73,26 @@ class User extends Controller {
         $mensaje = $this->userModel->editarSucursalFormulario($formulario);
         $this->consultarSucursales();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+     }
+
+     public function eliminarSucursal($form){
+        $this->userModel->eliminarSucursal($form['id']);
+        $listadoSucursales = $this->userModel->mostrarSucursales();
+        $tablaHtmlCompleta="";
+        foreach($listadoSucursales as $element) {
+            $tablaHtml=$this->getTemplate("./app/views/components/tablaSucursales.html");
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_entidad());
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getNombre());
+            $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getDireccion() );
+            $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getCiudad());
+            $var1="<a href='index.php?mode=editarSucursal&id=".$element->getCod_entidad()."'>
+            <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+            <button onclick='realizarAjax(".$element->getCod_entidad().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+
+        $tablaHtmlCompleta.=$tablaHtml;
+        }
+        $this->showView($tablaHtmlCompleta);
      }
 
 

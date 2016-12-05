@@ -29,6 +29,9 @@ class UserModel extends Model {
         return $this->entidadDAO->editarSucursal($sucursal, $form['codigoh']);
     }
 
+    function eliminarSucursal($id){
+        return $this->entidadDAO->eliminarSucursal($id);
+    }
 
 
 }
