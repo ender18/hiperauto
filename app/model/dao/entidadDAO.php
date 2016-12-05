@@ -69,7 +69,7 @@ class EntidadDAO extends Model{
 
 
     public function listarConcesionarios(){
-        $consulta = "SELECT * FROM Entidad WHERE cod_sucursal is not null";
+        $consulta = "SELECT * FROM entidad WHERE cod_sucursal is not null";
         $array = array();
         $this->connect();
         $query = $this->query($consulta);
@@ -90,15 +90,17 @@ class EntidadDAO extends Model{
     }
     
     public function listarSucursalesExcepto($cod_sucursal){
-        $consulta = "SELECT * FROM Entidad WHERE cod_entidad <> $cod_sucursal is null";
+        $consulta = "SELECT * FROM entidad WHERE cod_entidad <> $cod_sucursal is null";
         $array = array();
         $this->connect();
         $query = $this->query($consulta);
         $this->terminate();
 
         while($row = mysqli_fetch_array($query)){
-            $sucursal = new EntidadDTO();
+             $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 0);
+            array_unshift($array,$sucursal);
         }
+        return $array;
     }
 
 
