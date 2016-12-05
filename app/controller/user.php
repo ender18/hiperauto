@@ -45,21 +45,22 @@ class User extends Controller {
             $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getNombre());
             $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getDireccion() );
             $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getCiudad());
-            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", "<button type="."'button'"." class="."'btn btn-warning'".">Editar</button>
-                                                        &nbsp <button type="."'button'"." class="."'btn btn-danger'".">Borrar</button>");
-
-
-
-
-            $tablaHtmlCompleta.=$tablaHtml;
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", "<a href='"."index.php?mode=editarSucursal&id=".$element->getCod_entidad()."'>
+            <button type="."'button'"." class="."'btn btn-warning'".">Editar</button></a>&nbsp <button type="."'button'"." class="."'btn btn-danger'"."
+            >Borrar</button>");
+        $tablaHtmlCompleta.=$tablaHtml;
         }
-
         $this->view = $this->renderView($this->view, "{{TITULO}}","Listado Sucursales");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtmlCompleta);
         $this->showView($this->view);
-    }
+         }
+
+     public function editarSucursal($id){
 
 
+
+
+     }
 
 
 

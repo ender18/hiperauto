@@ -18,6 +18,10 @@ class Router {
                 case "consultarSucursales":
                     $this->user->consultarSucursales();
                     break;
+
+                case "editarSucursal":
+                    $this->user->editarSucursal($_GET["id"]);
+                    break;
                     
                 default:
                     header("Location:index.php");
