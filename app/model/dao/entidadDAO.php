@@ -24,7 +24,11 @@ class EntidadDAO extends Model{
         
     
     public function eliminarSucursal($idSucursal){
-        
+        $consulta = "DELETE FROM Entidad WHERE codigo = $idSucursal";
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+        return $query;
     }
     
     public function listarSucursales(){
