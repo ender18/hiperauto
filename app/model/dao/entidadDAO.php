@@ -76,7 +76,7 @@ class EntidadDAO extends Model{
         $this->terminate();
 
         while($row = mysqli_fetch_array($query)){
-            $concesionario = new EntidadDTO($row["cod_entidad"], $row["nombre"], $row["direccion"], $row["ciudad"], 
+            $concesionario = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 
                 $row["cod_sucursal"]);
             array_unshift($array,$concesionario);
         }
@@ -86,11 +86,15 @@ class EntidadDAO extends Model{
 
     
     public function modificarSucursal($EntidadDTO){
-        
+        $consulta = "UPDATE entidad SET codigo = '$EntidadDTO->getCod_entidad', nombre = '$EntidadDTO->getNombre()', direccion = '$EntidadDTO->getDireccion()', ciudad = '$EntidadDTO->getCiudad()', cod_sucursal = '$EntidadDTO->getCod_sucursal()' WHERE codigo = '$EntidadDTO->getCod_entidad()'";
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+        return $query;
     }
     
     public function listarSucursalesExcepto($cod_sucursal){
-        $consulta = "SELECT * FROM entidad WHERE cod_entidad <> $cod_sucursal is null";
+        $consulta = "SELECT * FROM entidad WHERE codigo <> $cod_sucursal is null";
         $array = array();
         $this->connect();
         $query = $this->query($consulta);
