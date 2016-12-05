@@ -35,8 +35,27 @@ class User extends Controller {
 
     public function consultarSucursales() {
         $registroSucursal = $this->getTemplate("./app/views/accion/listaSucursales.html");
-        $this->view = $this->renderView($this->view, "{{TITULO}}","Registrar Sucursal");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroSucursal);
+        $listadoSucursales = $this->userModel->mostrarSucursales();
+        $tablaHtmlCompleta="";
+
+        foreach($listadoSucursales as $element) {
+            $tablaHtml=$this->getTemplate("./app/views/components/tablaSucursales.html");
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_entidad());
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getNombre());
+            $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getDireccion() );
+            $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getCiudad());
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", "<button type="."'button'"." class="."'btn btn-warning'".">Editar</button>
+                                                        &nbsp <button type="."'button'"." class="."'btn btn-danger'".">Borrar</button>");
+
+
+
+
+            $tablaHtmlCompleta.=$tablaHtml;
+        }
+
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Listado Sucursales");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtmlCompleta);
         $this->showView($this->view);
     }
 

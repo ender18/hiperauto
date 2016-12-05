@@ -28,7 +28,7 @@ class EntidadDAO extends Model{
     }
     
     public function listarSucursales(){
-        $consulta = "SELECT * FROM entidad WHERE codigo=0";
+        $consulta = "SELECT * FROM entidad WHERE (cod_sucursal=0)";
         $array = array();
         $this->connect();
         $query = $this->query($consulta);
