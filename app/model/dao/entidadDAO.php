@@ -82,16 +82,6 @@ class EntidadDAO extends Model{
         }
         return $array;
     }
-
-
-    
-    public function modificarSucursal($EntidadDTO){
-        $consulta = "UPDATE entidad SET codigo = '$EntidadDTO->getCod_entidad', nombre = '$EntidadDTO->getNombre()', direccion = '$EntidadDTO->getDireccion()', ciudad = '$EntidadDTO->getCiudad()', cod_sucursal = '$EntidadDTO->getCod_sucursal()' WHERE codigo = '$EntidadDTO->getCod_entidad()'";
-        $this->connect();
-        $query = $this->query($consulta);
-        $this->terminate();
-        return $query;
-    }
     
     public function listarSucursalesExcepto($cod_sucursal){
         $consulta = "SELECT * FROM entidad WHERE codigo <> $cod_sucursal is null";
