@@ -65,7 +65,6 @@ class EntidadDAO extends Model{
         $insert = "UPDATE entidad SET codigo='".$EntidadDTO->getCod_entidad()."', nombre='".$EntidadDTO->getNombre()."', direccion='".
         $EntidadDTO->getDireccion()."', ciudad='".$EntidadDTO->getCiudad()."', cod_sucursal='".$EntidadDTO->getCod_sucursal()."'
         WHERE codigo =".$id."";
-        echo $insert;
         $this->connect();
         $this->query($insert);
         $this->terminate();
