@@ -33,6 +33,31 @@ class UserModel extends Model {
         return $this->entidadDAO->eliminarSucursal($id);
     }
 
+    function busquedaFiltradaEntidad($form){
+        $sucursal = new EntidadDTO($form['codigo'], $form['nombre'] , $form['direccion'], $form['ciudad'], null);
+        return $this->entidadDAO->agregarSucursal($sucursal);
+    }
+
+    function registrarPieza($form){
+
+    }
+
+    function eliminarPieza($id){
+
+    }
+
+    function editarPieza($form){
+
+    }
+
+    function listarPieza(){
+
+    }
+
+    function busquedaFiltradaPieza($form){
+
+    }
+
 }
 
 ?>
