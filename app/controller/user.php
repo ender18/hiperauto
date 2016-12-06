@@ -20,6 +20,8 @@ class User extends Controller {
         $this->showView($this->view);
     }
 
+// Metodos sucursal
+
     public function agregarSucursal() {
         $registroSucursal = $this->getTemplate("./app/views/accion/registroAccion.html");
         $this->view = $this->renderView($this->view, "{{TITULO}}","Registrar Sucursal");
@@ -95,7 +97,84 @@ class User extends Controller {
         $this->showView($tablaHtmlCompleta);
      }
 
+// Metodos pieza
 
+    public funtion agregarPieza(){
+        $registroPieza = $this->getTemplate("./app/views/accion/registroAccion.html");
+        $this->view = $this->renderView($this->view, "{{TITULO}}", "Registrar Pieza");
+        $this->view = $this->renderView($this->view,"{{CONTENIDO}}", $registroPieza);
+        $this->showView($this->view);
+   }
+
+    public function agregarFormPieza($form){
+        $mensaje = $this->userModel->registrarPieza($form);
+        $this->agregarPieza();
+        echo echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+
+    }
+
+    public function consultarPiezas(){
+        $registroPieza=$this->getTemplate("./app/views/accion/listaPiezas.html");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroPieza);
+        $listadoPiezas = $this->userModel->mostrarPieza();
+        $tablaHtml="";
+
+            foreach ($listadoPiezas as $element) {
+                $tablaHtml= $this->getTemplate("./app/views/components/tablaPiezas.html");
+                $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_pieza());
+                $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}", $element->getNombre());
+                $var1="<a href='index.php?mode=editarPieza&id=".$element->getCod_pieza()."'>
+                <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+                <button onclick='realizarAjax(".$element->getCod_pieza().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+                $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+
+            $tablaHtmlCompleta.=$tablaHtml;
+            }
+
+            $this->view = $this->renderView($this->view, "{{TITULO}}","Listado Piezas");
+            $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtmlCompleta);
+            $this->showView($this->view);
+         }
+
+    }
+
+    public function editarPieza($id){
+        $tablaHtml = $this->getTemplate("./app/views/accion/editaPierza.html");
+        $element = $this->userModel->buscarPieza($id);
+        $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element[0]->getCod_pieza());
+        $tablaHtml = renderView($tablaHtml, "{{nombre}}"), $element[0]->getNombre());
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Editar Pieza");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtml);
+        $this->showView($this->view);
+    }
+
+    public function editarPiezaFormulario($formulario){
+        $mensaje = $this->userModel->editarPiezaFormulario($formulario);
+        $this->consultarPiezas();
+        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+    }
+
+    public function eliminarPieza($form){
+        $this->userModel->eliminarPieza($form['id']);
+        $listadoPiezas = $this->userModel->mostrarPieza();
+        $tablaHtmlCompleta="";
+        foreach($listadoPiezas as $element) {
+            $tablaHtml=$this->getTemplate("./app/views/components/tablaPiezas.html");
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_pieza());
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getNombre());
+            $var1="<a href='index.php?mode=editarPieza&id=".$element->getCod_pieza()."'>
+            <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+            <button onclick='realizarAjax(".$element->getCod_pieza().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+
+        $tablaHtmlCompleta.=$tablaHtml;
+        }
+        $this->showView($tablaHtmlCompleta);
+     }
+
+
+
+  
     public function inicioSesion() {
         $menu;
         $login = $this->getTemplate("./app/views/login.html");
