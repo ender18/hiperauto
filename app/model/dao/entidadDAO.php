@@ -140,7 +140,7 @@ class EntidadDAO extends Model{
         }
 
         if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getNombre() != "" && $EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() == "" && $EntidadDTO->getCod_sucursal() == ""){
-            return = "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%'";
+            return "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%'";
         }
 
         if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() != "" && $EntidadDTO->getCiudad() == "" && $EntidadDTO->getCod_sucursal() == ""){

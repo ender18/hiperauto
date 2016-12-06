@@ -5,11 +5,11 @@ require_once "./app/model/dto/pedidoDTO.php";
 
 class PedidoDAO extends Model{
     
-    public function agregarPedido(){
+    public function agregarPedido($PedidoDTO){
         
     }
     
-    public function listarPedidos(){
+    public function listarPedidos($codigo){
         
     }
     
@@ -17,7 +17,7 @@ class PedidoDAO extends Model{
         
     }
     
-    public function modificarPedido(){
+    public function modificarPedido($PedidoDTO, $codigo){
         
     }
     
