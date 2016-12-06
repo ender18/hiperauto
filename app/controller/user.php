@@ -97,6 +97,7 @@ class User extends Controller {
         $this->showView($tablaHtmlCompleta);
      }
 
+
 // Metodos pieza
 
     public function agregarPieza(){
