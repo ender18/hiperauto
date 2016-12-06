@@ -33,8 +33,6 @@ class UserModel extends Model {
         return $this->entidadDAO->eliminarSucursal($id);
     }
 
-    function busquedaFiltrada($)
-
 }
 
 ?>

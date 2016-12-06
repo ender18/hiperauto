@@ -129,7 +129,6 @@ class EntidadDAO extends Model{
              $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], $row["cod_sucursal"]);
             array_unshift($array,$sucursal);
         }
-
         return $array;
     }
 
