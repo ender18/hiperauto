@@ -99,7 +99,7 @@ class User extends Controller {
 
 // Metodos pieza
 
-    public funtion agregarPieza(){
+    public function agregarPieza(){
         $registroPieza = $this->getTemplate("./app/views/accion/registroAccion.html");
         $this->view = $this->renderView($this->view, "{{TITULO}}", "Registrar Pieza");
         $this->view = $this->renderView($this->view,"{{CONTENIDO}}", $registroPieza);
@@ -109,7 +109,7 @@ class User extends Controller {
     public function agregarFormPieza($form){
         $mensaje = $this->userModel->registrarPieza($form);
         $this->agregarPieza();
-        echo echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
 
     }
 
@@ -134,24 +134,18 @@ class User extends Controller {
             $this->view = $this->renderView($this->view, "{{TITULO}}","Listado Piezas");
             $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtmlCompleta);
             $this->showView($this->view);
-         }
-
     }
 
-    public function editarPieza($id){
+    
+
+    public function editarPieza ($id) {
         $tablaHtml = $this->getTemplate("./app/views/accion/editaPierza.html");
         $element = $this->userModel->buscarPieza($id);
         $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element[0]->getCod_pieza());
-        $tablaHtml = renderView($tablaHtml, "{{nombre}}"), $element[0]->getNombre());
+        $tablaHtml = renderView($tablaHtml, "{{nombre}}", $element[0]->getNombre());
         $this->view = $this->renderView($this->view, "{{TITULO}}","Editar Pieza");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtml);
         $this->showView($this->view);
-    }
-
-    public function editarPiezaFormulario($formulario){
-        $mensaje = $this->userModel->editarPiezaFormulario($formulario);
-        $this->consultarPiezas();
-        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
     }
 
     public function eliminarPieza($form){
@@ -172,9 +166,6 @@ class User extends Controller {
         $this->showView($tablaHtmlCompleta);
      }
 
-
-
-  
     public function inicioSesion() {
         $menu;
         $login = $this->getTemplate("./app/views/login.html");
