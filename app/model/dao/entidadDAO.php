@@ -5,8 +5,6 @@ include_once "./app/model/dto/entidadDTO.php";
 
 class EntidadDAO extends Model{
 
-    private $entidadDTO;
-
     public function __construct(){
         
     }
@@ -52,6 +50,7 @@ class EntidadDAO extends Model{
             $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 0);
             array_unshift($array,$sucursal);
         }
+
         return $array;
     }
 
@@ -84,6 +83,7 @@ class EntidadDAO extends Model{
                 $row["cod_sucursal"]);
             array_unshift($array,$concesionario);
         }
+
         return $array;
     }
     
@@ -98,6 +98,7 @@ class EntidadDAO extends Model{
              $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 0);
             array_unshift($array,$sucursal);
         }
+
         return $array;
     }
 
@@ -112,9 +113,89 @@ class EntidadDAO extends Model{
             $this->terminate();
             return true;
         }
+
         $this->terminate();
         return $exito;
     }
+
+    public function busquedaFiltrada($EntidadDTO){
+        $consulta = $this->componerConsulta($EntidadDTO);
+        $array = array();
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+
+        while($row = mysqli_fetch_array($query)){
+             $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], $row["cod_sucursal"]);
+            array_unshift($array,$sucursal);
+        }
+
+        return $array;
+    }
+
+    private  function componerConsulta($EntidadDTO){
+
+        if ($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() == "" && $EntidadDTO->getCod_sucursal() == "") {
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getNombre() != "" && $EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() == "" && $EntidadDTO->getCod_sucursal() == ""){
+            return = "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() != "" && $EntidadDTO->getCiudad() == "" && $EntidadDTO->getCod_sucursal() == ""){
+            return "SELECT * FROM entidad WHERE direccion like '%EntidadDTO->getDireccion()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() != "" && $EntidadDTO->getCod_sucursal() == ""){
+            return "SELECT * FROM entidad WHERE ciudad like '%$EntidadDTO->getCiudad()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() != ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and nombre like '%$EntidadDTO->getNombre()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getDireccion() == ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and direccion like '%$EntidadDTO->getDireccion()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if($EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() != ""){
+            return "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%' and direccion like '%EntidadDTO->getDireccion()%'";
+        }
+
+        if($EntidadDTO->getNombre() == "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if($EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE direccion like '%$EntidadDTO->getDireccion()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if ($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() != "" && $EntidadDTO->getDireccion() != "") {
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and nombre like '%$EntidadDTO->getNombre()%' and direccion like '%EntidadDTO->getDireccion()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() != "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and nombre like '%$EntidadDTO->getNombre()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if($EntidadDTO->getCod_entidad() == "" && $EntidadDTO->getDireccion() != "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and direccion like '%EntidadDTO->getDireccion()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if($EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() != "" && $EntidadDTO->getCiudad() != ""){
+            return "SELECT * FROM entidad WHERE nombre like '%$EntidadDTO->getNombre()%' and direccion like '%EntidadDTO->getDireccion()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+
+        if ($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() != "" && $EntidadDTO->getDireccion() != "" && $EntidadDTO->getCiudad() != "" && $EntidadDTO->getCod_sucursal() != ""){
+            return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and nombre like '%$EntidadDTO->getNombre()%' and direccion like '%EntidadDTO->getDireccion()%' and ciudad like '%EntidadDTO->getCiudad()%'";
+        }
+    }
+
 }
 
 ?>
