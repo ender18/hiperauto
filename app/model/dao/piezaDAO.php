@@ -84,13 +84,13 @@ class PiezaDAO extends Model{
     		return "SELECT * FROM pieza WHERE cod_pieza like '%$piezaDTO.getCod_pieza()%' and nombre like '%$piezaDTO->getNombre()%'";
     	}
     }
-    
+
     public function buscarPieza($codigo){
         $exito = false;
         $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza =".$codigo")";
         $this->connect();
-        $consulta= $this->query($queryExist);
-        $extraido= mysqli_fetch_array($consulta);
+        $consulta = $this->query($queryExist);
+        $extraido = mysqli_fetch_array($consulta);
         if( $extraido['conteo'] != 0){
             $this->terminate();
             return true;
@@ -98,6 +98,14 @@ class PiezaDAO extends Model{
 
         $this->terminate();
         return $exito;
+    }
+
+    public function obtenerPieza($codigo){
+        $consulta = "SELECT * FROM pieza WHERE cod_pieza = $codigo";
+        $this->connect();
+        $query = mysqli_fetch_array($this->query($consulta));
+        $this->terminate();
+        return new PiezaDTO($query['cod_pieza'], $query['nombre']);
     }
     
 }

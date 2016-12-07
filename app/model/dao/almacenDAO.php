@@ -16,10 +16,6 @@ class AlmacenDAO extends Model{
         return "PIEZA ASIGNADA AL ALMACEN!";
     }
     
-    public function modificar(){
-        
-    }
-
     public function verAlmacen($sucursalDTO){
     	$consulta = "SELECT * FROM almacen WHERE cod_sucursal = sucursalDTO->getCod_entidad()";
     	$this->connect();
@@ -48,6 +44,36 @@ class AlmacenDAO extends Model{
 
         $this->terminate();
         return $exito;
+    }
+
+    private function validarExistenciasPieza($cod_sucursal, $cod_pieza, $cantidad){
+        $consulta = "SELECT * FROM piezaXpedido WHERE cod_sucursal = $cod_sucursal and cod_pieza = $cod_pieza";
+        $this->connect();
+        $query = mysqli_fetch_array($this->query($consulta));
+        $this->terminate();
+       
+
+    private $cod_sucursal;
+    private $cod_pieza;
+    private $stock;
+    private $stock_min;
+
+
+        if($query['stock'] > $query['stock_min'] $query['stock'] > && $cantidad){
+            return new AlmacenDTO($query['cod_sucursal'], $query['cod_pieza'], $query['stock'], $query['stock_min']);
+        }
+
+        return null;
+    }
+
+    public function enviarPiezas($cod_sucursal, $cod_pieza, $cantidad){
+        $almacen = $this->validarExistenciasPieza($cod_sucursal, $cod_pieza, $cantidad);
+        if($almacen == null){
+            return false;
+        }
+        $stock = $almacen->getStock()-$cantidad;
+        $consulta  = "UPDATE almacen SET stock ='".$stock."' WHERE cod_sucursal = ".$almacen->getCod_sucursal()." and cod_pieza = ".$almacen->getCod_pieza()."";
+        return true;
     }
     
 }
