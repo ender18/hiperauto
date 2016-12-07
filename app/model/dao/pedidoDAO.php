@@ -5,10 +5,11 @@ require_once "./app/model/dto/pedidoDTO.php";
 
 class PedidoDAO extends Model{
 
-	public function crearPedido($emisorDTO, $receptoDTO, $tipo){
+	public function crearPedido($emisorDTO, $receptoDTO, $tipo, $fecha_entrega){
 		$array = getdate();
-		$fecha = date_create();
-		$consulta = "INSERT INTO `pedido` (`cod_emisor`,`cod_receptor`,`fecha_pedido`,`estado`,`tipo`,`estado`) values ('$emisorDTO-getCod_entidad()', '$receptorDTO->getCod_entidad()', null, '$tipo', 'Pendiente')";
+        $fecha = $array['mday']."-".$array['mon']."-".$array['year'];
+
+		$consulta = "INSERT INTO `pedido` (`cod_emisor`,`cod_receptor`,`fecha_pedido`,`fecha_entrega`,`tipo`,`estado`) values ('$emisorDTO-getCod_entidad()', '$receptorDTO->getCod_entidad()', STR_TO_DATE( '$fecha', '%d-%m-%Y' ), '$fecha_entrega', '$tipo', 'Pendiente')";
 		$this->connect();
 		$this->query($consulta);
 		$this->terminate();
@@ -38,7 +39,17 @@ class PedidoDAO extends Model{
     }
     
     public function modificarPedido($PedidoDTO, $codigo){
-        
+        if($codigo != $PedidoDTO->getCod_pedido()){
+            if($this->buscarPedido($PedidoDTO->getCod_pedido()) <> null){
+                 return "ERROR AL EDITAR! EL NUEVO CODIGO DE ESA PEDIDO YA ESTA ASOCIADO CON OTRO, INTENTELO DE NUEVO";
+            }
+        }
+
+        $insert = "UPDATE pedido SET cod_pedido ='".$PedidoDTO->getCod_pedido()."', cod_emisor = '".$PedidoDTO->getCod_emisor()."', cod_receptor = '".$PedidoDTO->getCod_receptor()."', fecha_pedido = '".$PedidoDTO->getFecha_pedido()."', fecha_entrega = '".$PedidoDTO->getFecha_entrega()."', estado = '".$PedidoDTO->getEstado()."', tipo = '".$PedidoDTO->getTipo()."' WHERE cod_pedido =".$cod_pedido."";
+        $this->connect();
+        $this->query($insert);
+        $this->terminate();
+        return "EL PEDIDO FUE EDITADO EXITOSAMENTE!";
     }
 
     public function obtenerCodigoPedido($emisorDTO, $receptorDTO, $fecha){

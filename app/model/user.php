@@ -59,7 +59,6 @@ class UserModel extends Model {
 
     }
 
-
     function registrarPieza($form){
        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
        echo($form['codigo'].$form['nombre']);
@@ -82,12 +81,12 @@ class UserModel extends Model {
         
     }
 
-    function hacerPedidoSucursal($emisor, $receptor, $tipo){
-        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $receptor->getCod_entidad, $tipo);
+    function hacerPedidoSucursal($emisor, $receptor, $tipo, $fecha_entrega){
+        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $receptor->getCod_entidad, $tipo, $fecha_entrega);
     }
 
-    function hacerPedidoConcesionario($emisor, $tipo){
-        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $emisor->getCod_sucursal(), $tipo);
+    function hacerPedidoConcesionario($emisor, $tipo, $fecha_entrega){
+        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $emisor->getCod_sucursal(), $tipo, $fecha_entrega);
     }
 
     function agregarPiezaPedido($codPedido, $codPieza, $cantidad){
@@ -105,7 +104,11 @@ class UserModel extends Model {
         return $this->pedidoDAO->listarPedidos();
     }
 
-    function eliminarPedido(){
+    function eliminarPedido($cod_pedido){
+        return $this->pedidoDAO->eliminarPedido($cod_pedido);
+    }
+
+    function editarPedido($form){
 
     }
 
