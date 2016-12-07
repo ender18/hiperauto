@@ -29,7 +29,10 @@ class Router {
                 case "eliminarSucursal1":
                     $this->user->eliminarSucursal($_GET);
                     break;
-                    
+                case "agregarPieza":
+                    $this->user->agregarPieza();
+                    break;
+
                     default:
                     header("Location:index.php");
                     break;
@@ -45,7 +48,9 @@ class Router {
                     $this->user->editarSucursalFormulario($_POST);
                     break;
 
-                
+                case "agregarPiezaFormulario":
+                    $this->user->agregarFormPieza($_POST);             
+                    break;
                     
                 default:
                     header("Location:index.php");

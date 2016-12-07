@@ -101,7 +101,7 @@ class User extends Controller {
 // Metodos pieza
 
     public function agregarPieza(){
-        $registroPieza = $this->getTemplate("./app/views/accion/registroAccion.html");
+        $registroPieza = $this->getTemplate("./app/views/accion/registroPieza.html");
         $this->view = $this->renderView($this->view, "{{TITULO}}", "Registrar Pieza");
         $this->view = $this->renderView($this->view,"{{CONTENIDO}}", $registroPieza);
         $this->showView($this->view);
