@@ -84,7 +84,7 @@ class PiezaDAO extends Model{
     		return "SELECT * FROM pieza WHERE cod_pieza like '%$piezaDTO.getCod_pieza()%' and nombre like '%$piezaDTO->getNombre()%'";
     	}
     }
-
+    
     public function buscarPieza($codigo){
         $exito = false;
         $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza =".$codigo")";
