@@ -54,6 +54,12 @@ class UserModel extends Model {
         return $this->entidadDAO->agregarSucursal($sucursal);
     }
 
+    function mostrarEnditdades(){
+        return $this->entidadDAO->mostrarEntidades();
+
+    }
+
+
     function registrarPieza($form){
        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
        return $this->PiezaDAO->registrarPieza($pieza);

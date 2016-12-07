@@ -54,6 +54,19 @@ class EntidadDAO extends Model{
         return $array;
     }
 
+    public function mostrarEntidades(){
+        $consulta = "SELECT * FROM entidad";
+        $array = array();
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+        while($row = mysqli_fetch_array($query)){
+            $sucursal = new EntidadDTO($row["codigo"], $row["nombre"], $row["direccion"], $row["ciudad"], 0);
+            array_unshift($array,$sucursal);
+        }
+        return $array;
+    }
+
     public function editarSucursal($EntidadDTO, $id){
 
         if($id!=$EntidadDTO->getCod_entidad()){

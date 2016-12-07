@@ -29,11 +29,17 @@ class Router {
                 case "eliminarSucursal1":
                     $this->user->eliminarSucursal($_GET);
                     break;
+                    
                 case "agregarPieza":
                     $this->user->agregarPieza();
                     break;
+
                 case "consultarPieza":
                     $this->user->consultarPiezas();
+                    break;
+
+                case "realizarPedido":
+                    $this->user->realizarPedido();
                     break;
 
                     default:

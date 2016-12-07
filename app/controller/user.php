@@ -97,6 +97,20 @@ class User extends Controller {
         $this->showView($tablaHtmlCompleta);
      }
 
+/* PEDIDO */
+
+    public function realizarPedido(){
+        $entidades = $this->userModel->mostrarEnditdades();
+        $sucursales = $this->userModel->mostrarSucursales();
+
+        
+
+
+
+
+    }
+
+
 
 // Metodos pieza
 
