@@ -62,6 +62,7 @@ class UserModel extends Model {
 
     function registrarPieza($form){
        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
+       echo($form['codigo'].$form['nombre']);
        return $this->PiezaDAO->registrarPieza($pieza);
     }
 
