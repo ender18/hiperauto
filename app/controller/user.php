@@ -109,7 +109,7 @@ class User extends Controller {
 
     public function agregarFormPieza($form){
         $mensaje = $this->userModel->registrarPieza($form);
-        $this->agregarPieza();
+        $this->registrarPieza();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
 
     }
@@ -117,7 +117,7 @@ class User extends Controller {
     public function consultarPiezas(){
         $registroPieza=$this->getTemplate("./app/views/accion/listaPiezas.html");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroPieza);
-        $listadoPiezas = $this->userModel->mostrarPieza();
+        $listadoPiezas = $this->userModel->listarPieza();
         $tablaHtml="";
 
             foreach ($listadoPiezas as $element) {
@@ -140,7 +140,7 @@ class User extends Controller {
     
 
     public function editarPieza ($id) {
-        $tablaHtml = $this->getTemplate("./app/views/accion/editaPierza.html");
+        $tablaHtml = $this->getTemplate("./app/views/accion/editaPieza.html");
         $element = $this->userModel->buscarPieza($id);
         $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element[0]->getCod_pieza());
         $tablaHtml = renderView($tablaHtml, "{{nombre}}", $element[0]->getNombre());

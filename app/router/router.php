@@ -32,6 +32,9 @@ class Router {
                 case "agregarPieza":
                     $this->user->agregarPieza();
                     break;
+                case "consultarPieza":
+                    $this->user->consultarPiezas();
+                    break;
 
                     default:
                     header("Location:index.php");
@@ -49,9 +52,12 @@ class Router {
                     break;
 
                 case "agregarPiezaFormulario":
-                    $this->user->agregarFormPieza($_POST);             
+                    $this->user->agregarFormPieza($_POST);         
                     break;
-                    
+
+                case "editarPiezaFormulario":
+                    $this->user->editarPiezaFormulario($_POST);
+
                 default:
                     header("Location:index.php");
                     break;
