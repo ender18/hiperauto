@@ -2,7 +2,7 @@
 var ww = document.body.clientWidth;
 
 $(document).ready(function() {
-	$(".navig li a").each(function() {
+	$(".nav li a").each(function() {
 		if ($(this).next().length > 0) {
 			$(this).addClass("parent");
 		};
@@ -10,8 +10,8 @@ $(document).ready(function() {
 	
 	$(".toggleMenu").click(function(e) {
 		e.preventDefault();
-		$(this).toggleClass("sub");
-		$(".navig").toggle();
+		$(this).toggleClass("active");
+		$(".nav").toggle();
 	});
 	adjustMenu();
 })
@@ -24,17 +24,27 @@ $(window).bind('resize orientationchange', function() {
 var adjustMenu = function() {
 	if (ww < 800) {
 		$(".toggleMenu").css("display", "inline-block");
-		if (!$(".toggleMenu").hasClass("sub")) {
-			$(".navig").hide();
+		if (!$(".toggleMenu").hasClass("active")) {
+			$(".nav").hide();
 		} else {
-			$(".navig").show();
+			$(".nav").show();
 		}
-		
+		$(".nav li").unbind('mouseenter mouseleave');
+		$(".nav li a.parent").unbind('click').bind('click', function(e) {
+			// must be attached to anchor element to prevent bubbling
+			e.preventDefault();
+			$(this).parent("li").toggleClass("hover");
+		});
 	} 
 	else if (ww >= 800) {
 		$(".toggleMenu").css("display", "none");
-		$(".navig").show();
-		
+		$(".nav").show();
+		$(".nav li").removeClass("hover");
+		$(".nav li a").unbind('click');
+		$(".nav li").unbind('mouseenter mouseleave').bind('mouseenter mouseleave', function() {
+		 	// must be attached to li so that mouseleave is not triggered when hover over submenu
+		 	$(this).toggleClass('hover');
+		});
 	}
 }
 
