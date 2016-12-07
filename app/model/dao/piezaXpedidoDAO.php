@@ -2,8 +2,11 @@
 
 include_once "./app/model/model.php";
 require_once "./app/model/dto/PiezaXPedidoDTO.php";
+include_once "./app/model/util/classUtil.php";]
 
 class PiezaXPedidoDAO extends Model{
+
+    private $arrayCantidades;
     
     public function registrarPiezaPedido($pedidoDTO, $PiezaDTO, $cantidad){
     	if($this->buscarPiezaPedido($PiezaDTO->getCod_pieza(), $pedidoDTO->getCod_pedido())){
@@ -38,6 +41,20 @@ class PiezaXPedidoDAO extends Model{
 
     public function eliminarPiezaPedido(){
     	
+    }
+
+    public function listarPiezasPedido($cod_pedido){
+        $consulta = "SELECT cod_pieza, cantidad FROM piezaXpedido WHERE cod_pedido = $cod_pedido"
+        $this->connect();
+        $array = array();
+        $query = $this->query($consulta);
+        $this->terminate();
+
+        while ($row = mysqli_fetch_array($query)) {
+            $classUtil = new ClassUtil("", $row['cod_pieza'], $row['cantidad'], "", "", "");
+            array_unshift($array, $classUtil);
+        }
+        return $array;
     }
 
     public function buscarPiezaPedido($codPieza, $cod_pedido){

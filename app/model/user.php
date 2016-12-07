@@ -10,6 +10,7 @@ include_once "./app/model/dao/piezaDAO.php";
 include_once "./app/model/dto/piezaDTO.php";
 include_once "./app/model/dao/piezaXpedidoDAO.php";
 include_once "./app/model/dto/piezaXpedidoDTO.php";
+include_once "./app/model/util/classUtil.php";]
 
 class UserModel extends Model {
 
@@ -110,6 +111,17 @@ class UserModel extends Model {
 
     function editarPedido($form){
 
+    }
+
+    function listarPiezaPedido($cod_pedido){
+        $classUtil = $this->piezaXPedidoDAO->listarPiezaPedido($cod_pedido);
+
+        foreach ($classUtil as $pieza){
+            $piezaDTO = $this->obtenerPieza($pieza->getCod_pieza());
+            $pieza->setAtribute1($piezaDTO->getNombre());
+        }
+
+        return $classUtil;
     }
 
 }
