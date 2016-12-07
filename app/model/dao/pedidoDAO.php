@@ -8,7 +8,7 @@ class PedidoDAO extends Model{
 	public function crearPedido($emisorDTO, $receptoDTO, $tipo){
 		$array = getdate();
 		$fecha = date_create();
-		$consulta = "INSERT INTO `pedido` (`cod_emisor`,`cod_receptor`,`fecha_pedido`,`estado`,`tipo`,`estado`) values ('"$emisorDTO-getCod_entidad()"', '"$receptorDTO->getCod_entidad()"', '"$array['']"', '"$tipo"', '"Pendiente"')";
+		$consulta = "INSERT INTO `pedido` (`cod_emisor`,`cod_receptor`,`fecha_pedido`,`estado`,`tipo`,`estado`) values ('$emisorDTO-getCod_entidad()', '$receptorDTO->getCod_entidad()', null, '$tipo', 'Pendiente')";
 		$this->connect();
 		$this->query($consulta);
 		$this->terminate();

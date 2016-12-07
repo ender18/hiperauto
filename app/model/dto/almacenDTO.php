@@ -1,6 +1,6 @@
 <?php
 
-class AlmacenDAO{
+class AlmacenDTO{
     
     private $cod_sucursal;
     private $cod_pieza;

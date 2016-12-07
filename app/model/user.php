@@ -1,15 +1,15 @@
 <?php
 require_once "./app/model/model.php";
-include_once "./app/model/dto/entidadDTO.php";
-include_once "./app/model/dto/almacenDTO.php";
-include_once "./app/model/dto/pedidoDTO.php";
-include_once "./app/model/dto/piezaDTO.php";
-include_once "./app/model/dto/piezaXpedidoDTO.php";
 include_once "./app/model/dao/entidadDAO.php";
+include_once "./app/model/dto/entidadDTO.php";
 include_once "./app/model/dao/almacenDAO.php";
+include_once "./app/model/dto/almacenDTO.php";
 include_once "./app/model/dao/pedidoDAO.php";
+include_once "./app/model/dto/pedidoDTO.php";
 include_once "./app/model/dao/piezaDAO.php";
+include_once "./app/model/dto/piezaDTO.php";
 include_once "./app/model/dao/piezaXpedidoDAO.php";
+include_once "./app/model/dto/piezaXpedidoDTO.php";
 
 class UserModel extends Model {
 
@@ -74,7 +74,7 @@ class UserModel extends Model {
     }
 
     function listarPieza(){
-        return $this->piezaDAO->listarPieza();
+        return $this->piezaDAO->listarPiezas();
     }
 
     function busquedaFiltradaPieza($form){

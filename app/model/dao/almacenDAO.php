@@ -4,6 +4,10 @@ require_once "./app/model/model.php";
 include_once "./app/model/dto/almacenDTO.php";
 
 class AlmacenDAO extends Model{
+
+    public function __construct(){
+        
+    }
     
     public function agregarAlAlmacen($sucursalDTO, $piezaDTO, $stock, $stock_min) {
         if($this->buscarAlmacen($sucursalDTO->getCod_entidad(), $piezaDTO->getCod_pieza())){
@@ -33,7 +37,7 @@ class AlmacenDAO extends Model{
 
     private function buscarAlmacen($sucusal,$pieza){
         $exito = false;
-        $queryExist = "SELECT count(*) as conteo from almacen where (cod_sucusal ="$sucusal" and cod_pieza = "$pieza")";
+        $queryExist = "SELECT count(*) as conteo from almacen where cod_sucursal = $sucusal and cod_pieza = $pieza";
         $this->connect();
         $consulta= $this->query($queryExist);
         $extraido= mysqli_fetch_array($consulta);
@@ -51,15 +55,8 @@ class AlmacenDAO extends Model{
         $this->connect();
         $query = mysqli_fetch_array($this->query($consulta));
         $this->terminate();
-       
-
-    private $cod_sucursal;
-    private $cod_pieza;
-    private $stock;
-    private $stock_min;
-
-
-        if($query['stock'] > $query['stock_min'] $query['stock'] > && $cantidad){
+    
+        if($query['stock'] > $query['stock_min'] && $query['stock'] > $cantidad){
             return new AlmacenDTO($query['cod_sucursal'], $query['cod_pieza'], $query['stock'], $query['stock_min']);
         }
 

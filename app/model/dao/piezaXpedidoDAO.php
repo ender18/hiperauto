@@ -1,13 +1,16 @@
 <?php
 
-class PiezaXPedidoDAO{
+include_once "./app/model/model.php";
+require_once "./app/model/dto/PiezaXPedidoDTO.php";
+
+class PiezaXPedidoDAO extends Model{
     
     public function registrarPiezaPedido($pedidoDTO, $PiezaDTO, $cantidad){
     	if($this->buscarPiezaPedido($PiezaDTO->getCod_pieza(), $pedidoDTO->getCod_pedido())){
     		return "ERROR AL AGREGAR LA PIEZA, ESA PIEZA YA ESTA REGISTRADA EN EL PEDIDO!";
     	}
 
-    	$consulta = "INSERT INTO `piezaXpedido` (`cod_pieza`,`cod_pedido`,`cantidad`) values ('"$PiezaDTO->getCod_pieza()"','"$pedidoDTO->getCod_pedido()"', '"$cantidad"')";
+    	$consulta = "INSERT INTO `piezaXpedido` (`cod_pieza`,`cod_pedido`,`cantidad`) values ('$PiezaDTO->getCod_pieza()','$pedidoDTO->getCod_pedido()', '$cantidad')";
     	$this->connect();
     	$this->query($consulta);
     	$this->terminate();
@@ -22,7 +25,7 @@ class PiezaXPedidoDAO{
     	$this->terminate();
 
     	while ($row = mysqli_fetch_array($query)) {
-    		$piezaXpedido = new PiezaXPedidoDTO($row['cod_pieza'], $row['cod_pedido'], $row[''cantidad]);
+    		$piezaXpedido = new PiezaXPedidoDTO($row['cod_pieza'], $row['cod_pedido'], $row['cantidad']);
     		array_unshift($array, $piezaXpedido);
     	}
 
@@ -39,7 +42,7 @@ class PiezaXPedidoDAO{
 
     public function buscarPiezaPedido($codPieza, $cod_pedido){
     	$exito = false;
-        $queryExist = "SELECT count(*) as conteo from piezaXpedido where (cod_pedido =".$cod_pedido" and cod_pieza = $cod_pieza)";
+        $queryExist = "SELECT count(*) as conteo from piezaXpedido where (cod_pedido = $cod_pedido and cod_pieza = $cod_pieza)";
         $this->connect();
         $consulta= $this->query($queryExist);
         $extraido= mysqli_fetch_array($consulta);

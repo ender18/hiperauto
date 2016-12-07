@@ -34,7 +34,7 @@ class PiezaDAO extends Model{
     }
     
     public function eliminarPieza($codigo){
-        $consulta = "DELETE FROM pieza WHERE cod_pieza =".$codigo"";
+        $consulta = "DELETE FROM pieza WHERE cod_pieza = $codigo";
         $this->connect();
         $query = $this->query($consulta);
         $this->terminate();
@@ -87,7 +87,7 @@ class PiezaDAO extends Model{
 
     public function buscarPieza($codigo){
         $exito = false;
-        $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza =".$codigo")";
+        $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza = $codigo)";
         $this->connect();
         $consulta = $this->query($queryExist);
         $extraido = mysqli_fetch_array($consulta);
