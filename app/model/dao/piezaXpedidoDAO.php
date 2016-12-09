@@ -2,7 +2,7 @@
 
 include_once "./app/model/model.php";
 require_once "./app/model/dto/PiezaXPedidoDTO.php";
-include_once "./app/model/util/classUtil.php";]
+include_once "./app/model/util/classUtil.php";
 
 class PiezaXPedidoDAO extends Model{
 
@@ -44,7 +44,7 @@ class PiezaXPedidoDAO extends Model{
     }
 
     public function listarPiezasPedido($cod_pedido){
-        $consulta = "SELECT cod_pieza, cantidad FROM piezaXpedido WHERE cod_pedido = $cod_pedido"
+        $consulta = "SELECT cod_pieza, cantidad FROM piezaXpedido WHERE cod_pedido = $cod_pedido";
         $this->connect();
         $array = array();
         $query = $this->query($consulta);

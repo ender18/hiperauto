@@ -10,7 +10,7 @@ include_once "./app/model/dao/piezaDAO.php";
 include_once "./app/model/dto/piezaDTO.php";
 include_once "./app/model/dao/piezaXpedidoDAO.php";
 include_once "./app/model/dto/piezaXpedidoDTO.php";
-include_once "./app/model/util/classUtil.php";]
+include_once "./app/model/util/classUtil.php";
 
 class UserModel extends Model {
 
@@ -27,6 +27,9 @@ class UserModel extends Model {
         $this->pedidoDAO = new PedidoDAO();
         $this->piezaXPedidoDAO = new PiezaXPedidoDAO();
     }
+
+
+//Sucursal
 
     function registrarSucursal($form){
         $sucursal = new EntidadDTO($form['codigo'], $form['nombre'] , $form['direccion'], $form['ciudad'], null);
@@ -57,21 +60,26 @@ class UserModel extends Model {
 
     function mostrarEnditdades(){
         return $this->entidadDAO->mostrarEntidades();
+    }
 
+    //Pieza
+
+    function editarPiezaFormulario($form){
+        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
+        return $this->piezaDAO->editarPieza($pieza, $form['codigoh']);
     }
 
     function registrarPieza($form){
        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
-       echo($form['codigo'].$form['nombre']);
-       return $this->PiezaDAO->registrarPieza($pieza);
+       return $this->piezaDAO->agregarPieza($pieza);
     }
 
     function eliminarPieza($id){
         return $this->piezaDAO->eliminarPieza($id);
     }
 
-    function editarPieza($form){
-        
+    function buscarPieza($id){
+        return $this->entidadDAO->buscarPieza($id);
     }
 
     function listarPieza(){

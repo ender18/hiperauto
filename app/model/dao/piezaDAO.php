@@ -5,13 +5,13 @@ require_once "./app/model/dto/piezaDTO.php";
 
 class PiezaDAO extends Model{
     
-    public function registrarPieza($piezaDTO){
+    public function agregarPieza($piezaDTO){
 
-    	if($this->buscarPieza($piezaDTO->getCod_entidad())){
+    	if($this->buscarPieza($piezaDTO->getCod_pieza())){
             return "ERROR AL REGISTRAR! LA PIEZA YA EXISTE";
         }
 
-        $insert = "INSERT INTO `pieza` (`cod_pieza`, `nombre`) VALUES ('".$piezaDTO->getCod_Pieza()."','".$piezaDTO->getNombre()."')";
+        $insert = "INSERT INTO `pieza` (`cod_pieza`, `nombre`) VALUES ('".$piezaDTO->getCod_pieza()."','".$piezaDTO->getNombre()."')";
         $this->connect();
         $this->query($insert);
         $this->terminate();
@@ -19,7 +19,7 @@ class PiezaDAO extends Model{
     }
     
     public function listarPiezas(){
-        $consulta = "SELECT * FROM pieza";
+        $consulta = "SELECT * FROM pieza order by cod_pieza desc";
         $this->connect();
         $array = array();
         $query = $this->query($consulta);
@@ -41,7 +41,7 @@ class PiezaDAO extends Model{
         return "SE HA ELIMINADO CORRECTAMENTE";
     }
     
-    public function modificarPieza($piezaDTO, $cod_pieza){
+    public function editarPieza($piezaDTO, $cod_pieza){
         if($cod_pieza != $piezaDTO->getCod_Pieza()){
             if($this->buscarPieza($piezaDTO->getCod_pieza())){
                  return "ERROR AL EDITAR! EL NUEVO CODIGO DE ESA PIEZA YA ESTA ASOCIADO CON OTRA, INTENTELO DE NUEVO";

@@ -133,16 +133,17 @@ class User extends Controller {
 
     public function agregarFormPieza($form){
         $mensaje = $this->userModel->registrarPieza($form);
-        $this->registrarPieza();
+        $this->agregarPieza();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
 
     }
+
 
     public function consultarPiezas(){
         $registroPieza=$this->getTemplate("./app/views/accion/listaPiezas.html");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroPieza);
         $listadoPiezas = $this->userModel->listarPieza();
-        $tablaHtml="";
+        $tablaHtmlCompleta="";
 
             foreach ($listadoPiezas as $element) {
                 $tablaHtml= $this->getTemplate("./app/views/components/tablaPiezas.html");
@@ -161,8 +162,6 @@ class User extends Controller {
             $this->showView($this->view);
     }
 
-    
-
     public function editarPieza ($id) {
         $tablaHtml = $this->getTemplate("./app/views/accion/editaPieza.html");
         $element = $this->userModel->buscarPieza($id);
@@ -173,6 +172,11 @@ class User extends Controller {
         $this->showView($this->view);
     }
 
+    public function editarPiezaFormulario($formulario){
+        $mensaje = $this->userModel->editarPiezaFormulario($formulario);
+        $this->consultarPiezas();
+        echo "<script language=JavaScript>alert('".$mensaje."');</script>";
+     }
     public function eliminarPieza($form){
         $this->userModel->eliminarPieza($form['id']);
         $listadoPiezas = $this->userModel->mostrarPieza();
