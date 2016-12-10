@@ -128,7 +128,7 @@ class UserModel extends Model {
             $piezaDTO = $this->obtenerPieza($pieza->getCod_pieza());
             $pieza->setAtribute1($piezaDTO->getNombre());
         }
-
+        
         return $classUtil;
     }
 
