@@ -20,19 +20,12 @@ class AlmacenDAO extends Model{
         return "PIEZA ASIGNADA AL ALMACEN!";
     }
     
-    public function verAlmacen($sucursalDTO){
-    	$consulta = "SELECT * FROM almacen WHERE cod_sucursal = sucursalDTO->getCod_entidad()";
-    	$this->connect();
-    	$array = array();
+    public function verAlmacen($cod_sucursal){
+    	$consulta = "SELECT p.cod_pieza, p.nombre , a.stock FROM almacen a JOIN pieza p ON a.cod_pieza = p.cod_pieza WHERE a.cod_sucursal=".$cod_sucursal." AND a.stock>0";
+        $this->connect();
     	$query = $this->query($consulta);
     	$this->terminate();
-
-    	while ($row = mysqli_fetch_array($query)) {
-    		$almacen = new AlmacenDTO($row['cod_sucursal'], $row['cod_pieza'],$row['stock'], $row['stock_min']);
-    		array_unshift($array, $almacen);
-    	}
-
-    	return $array;
+        return $query;
     }
 
     private function buscarAlmacen($sucusal,$pieza){
@@ -48,6 +41,19 @@ class AlmacenDAO extends Model{
 
         $this->terminate();
         return $exito;
+    }
+
+
+    function hayDisponibles($cod_receptor, $cod_pieza, $cantidad){
+        $consulta = "SELECT stock FROM almacen WHERE cod_sucursal=".$cod_receptor." AND cod_pieza=".$cod_pieza."";
+        $this->connect();
+        $query = mysqli_fetch_array($this->query($consulta));
+        $this->terminate();
+        $resta = $query['stock']-$cantidad;
+        if($resta>=0){
+            return true;
+        }
+        return false;
     }
 
     private function validarExistenciasPieza($cod_sucursal, $cod_pieza, $cantidad){

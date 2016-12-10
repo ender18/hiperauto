@@ -69,9 +69,19 @@ class UserModel extends Model {
         return $this->piezaDAO->editarPieza($pieza, $form['codigoh']);
     }
 
+    function verAlmacen($codigo){
+        return $this->almacenDAO->verAlmacen($codigo);
+    }
+
     function registrarPieza($form){
        $pieza = new PiezaDTO($form['codigo'], $form['nombre']);
        return $this->piezaDAO->agregarPieza($pieza);
+    }
+
+
+
+    function eliminarPiezaPedido($get){
+        return $this->piezaXPedidoDAO->eliminarPiezaPedido($get['cod_pedido'], $get['cod_pieza']);
     }
 
     function eliminarPieza($id){
@@ -90,24 +100,29 @@ class UserModel extends Model {
         
     }
 
-    function hacerPedidoSucursal($emisor, $receptor, $tipo, $fecha_entrega){
-        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $receptor->getCod_entidad, $tipo, $fecha_entrega);
+    function hacerPedido($emisor, $receptor, $fecha_entrega,  $tipo){
+        return $this->pedidoDAO->crearPedido($emisor, $receptor, $fecha_entrega, $tipo);
     }
 
-    function hacerPedidoConcesionario($emisor, $tipo, $fecha_entrega){
-        return $this->pedidoDAO->crearPedido($emisor->getCod_entidad(), $emisor->getCod_sucursal(), $tipo, $fecha_entrega);
+    public function listarPiezasPedido($id_pedido){
+        return $this->piezaXPedidoDAO->listarPiezasPedido($id_pedido);
     }
 
-    function agregarPiezaPedido($codPedido, $codPieza, $cantidad){
-        $pedido = $this->pedidoDAO->buscarPedido($codPedido);
-        $pieza = $this->PiezaDAO->obtenerPieza($codPedido);
-        if(!$this->piezaXPedidoDAO->buscarPiezaPedido($codPieza, $codPedido)){
-            if($this->almacenDAO->enviarPiezas($pedido->getReceptor(), $pieza->getCod_pieza(), $cantidad)){
-                return $this->piezaXPedidoDAO->registrarPiezaPedido($pedido, $pieza, $cantidad);
-            }
+
+   
+    function agregarPiezaPedido($cod_receptor, $codPedido, $codPieza, $cantidad){
+        
+        $hayDisponibles= $this->almacenDAO->hayDisponibles($cod_receptor, $codPieza, $cantidad);
+        if($hayDisponibles){
+            $this->piezaXPedidoDAO->agregarPiezaPedida($codPedido, $codPieza, $cantidad);
+            return true;
+        }else{
+            return false;
         }
-        return "OCURRIO UN ERROR AL AGREGAR LA PIEZA AL PEDIDO";
     }
+
+    
+
 
     function listarPedidos(){
         return $this->pedidoDAO->listarPedidos();
