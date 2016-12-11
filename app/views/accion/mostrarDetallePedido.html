@@ -34,49 +34,27 @@
 					<div class="col-md-3">
 					</div>
 				</div>
-				<hr>
-				<h3 id="titulo">Agrega piezas al pedido</h3>
-				<br>
-
-				<div class="row">
-					<div class="col-md-2">
-					</div>
-					<div class="col-md-3">
-						<label>Piezas disponibles</label>
-					</div>
-					<div class="col-md-3">
-						<label>+Cantidad</label>
-					</div>
-					<div class="col-md-3">
-					</div>
-				</div>
-				<div class="row">
+				
+								<div class="row">
 				<form id="agregarProductos">
 					<input type="hidden" name="mode" value="agregarPiezaPedido">
-					<input type="hidden" name="cod_receptor" value="{{cod_receptor}}">
 					<input type="hidden" name="cod_pedido" value="{{cod_pedido}}">
 						<div class="col-md-2">
 						</div>
 						<div class="col-md-3">
-							<select class="form-control" name="cod_pieza">
-                                            {{PRODUCTOS}}
-                                      </select>
 						</div>
 						<div class="col-md-3">
-							<input class="form-control" type="number" name="cantidad" required="" min="1">
 						</div>
 						<div class="col-md-2">
-							<button d type="submit" class="btn btn-info" {{deshabilitar}}>Agregar pieza</button>
 						</div>
 						
 				</form>
 				<div class="col-md-2">
-							<a href="index.php?mode=finalizarPedido"><button class="btn btn-success">Finalizar pedido</button></a>
-						</div>
+							</div>
 				</div>
 				<br>
 				<div id="busqueda_exitosa">
-					
+					{{PRODUCTOS}}
 				</div>
 				<hr>
 			</div>

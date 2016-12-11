@@ -82,7 +82,7 @@ class PiezaXPedidoDAO extends Model{
     	$this->terminate();
     }
 
-    public function listarPiezasPedido($cod_pedido){
+    public function listarPiezasPedido1($cod_pedido){
         $consulta = "SELECT cod_pieza, cantidad FROM piezaXpedido WHERE cod_pedido = $cod_pedido";
         $this->connect();
         $array = array();
