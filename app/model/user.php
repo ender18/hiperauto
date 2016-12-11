@@ -55,7 +55,7 @@ class UserModel extends Model {
 
     function busquedaFiltradaEntidad($form){
         $sucursal = new EntidadDTO($form['codigo'], $form['nombre'] , $form['direccion'], $form['ciudad'], null);
-        return $this->entidadDAO->agregarSucursal($sucursal);
+        return $this->entidadDAO->busquedaFiltrada($sucursal);
     }
 
     function mostrarEnditdades(){
@@ -79,7 +79,6 @@ class UserModel extends Model {
     }
 
 
-
     function eliminarPiezaPedido($get){
         return $this->piezaXPedidoDAO->eliminarPiezaPedido($get['cod_pedido'], $get['cod_pieza']);
     }
@@ -97,21 +96,19 @@ class UserModel extends Model {
     }
 
     function busquedaFiltradaPieza($form){
-        
+        return $this->pedidoDAO->busquedaFiltrada(new PiezaDTO($form['codigo'], $form['nombre']));
     }
 
+    // pedido
     function hacerPedido($emisor, $receptor, $fecha_entrega,  $tipo){
         return $this->pedidoDAO->crearPedido($emisor, $receptor, $fecha_entrega, $tipo);
     }
 
-    public function listarPiezasPedido($id_pedido){
+    function listarPiezasPedido($id_pedido){
         return $this->piezaXPedidoDAO->listarPiezasPedido($id_pedido);
-    }
+    }   
 
-
-   
     function agregarPiezaPedido($cod_receptor, $codPedido, $codPieza, $cantidad){
-        
         $hayDisponibles= $this->almacenDAO->hayDisponibles($cod_receptor, $codPieza, $cantidad);
         if($hayDisponibles){
             $this->piezaXPedidoDAO->agregarPiezaPedida($codPedido, $codPieza, $cantidad);
@@ -120,9 +117,6 @@ class UserModel extends Model {
             return false;
         }
     }
-
-    
-
 
     function listarPedidos(){
         return $this->pedidoDAO->listarPedidos();
@@ -138,13 +132,16 @@ class UserModel extends Model {
 
     function listarPiezaPedido($cod_pedido){
         $classUtil = $this->piezaXPedidoDAO->listarPiezaPedido($cod_pedido);
-
         foreach ($classUtil as $pieza){
             $piezaDTO = $this->obtenerPieza($pieza->getCod_pieza());
             $pieza->setAtribute1($piezaDTO->getNombre());
         }
         
         return $classUtil;
+    }
+
+    function busquedaFiltradaPedido($nom_emisor, $nom_receptor, $cod_pedido){
+        return $this->pedidoDAO->busquedaFiltrada($nom_emisor, $nom_receptor, $cod_pedido);
     }
 
 }

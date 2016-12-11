@@ -3,6 +3,7 @@
 class Model {
     
     private $connection;
+
 /*
     public function connect(){
         $server="sandbox2.ufps.edu.co";
@@ -11,7 +12,9 @@ class Model {
         $bd="1151224";
         $this->connection = mysqli_connect($server,$user,$pass,$bd) or  die(("Error " . mysqli_error($this->connection)));
     }
-*/
+
+    */
+
     public function connect(){
         $server="localhost";
         $user="root";
@@ -19,6 +22,7 @@ class Model {
         $bd="1151224";
         $this->connection = mysqli_connect($server,$user,$pass,$bd) or  die(("Error " . mysqli_error($this->connection)));
     }
+
 
     public function query($sql){
         return mysqli_query($this->connection,$sql);

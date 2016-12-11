@@ -71,6 +71,19 @@ class PiezaDAO extends Model{
     }
 
     private function componerConsulta($piezaDTO){
+        $consulta = "SELECT * FROM pieza";
+        if($piezaDTO->getCod_pieza() != ""){
+            $consulta .= "cod_pieza like '%$piezaDTO->getCod_pieza()%' ";
+            if($piezaDTO->getNombre() != ""){
+                $consulta .= "and nombre like '%$piezaDTO->getNombre()%' ";
+            }
+        }else{
+            $consulta .= "nombre like '%$piezaDTO->getNombre()%' ";
+        }
+    }
+
+/*
+    private function componerConsulta($piezaDTO){
 
     	if($piezaDTO->getCod_pieza() != "" && $piezaDTO->getNombre() == ""){
     		return "SELECT * FROM pieza WHERE cod_pieza like '%$piezaDTO.getCod_pieza()%'";
@@ -84,6 +97,7 @@ class PiezaDAO extends Model{
     		return "SELECT * FROM pieza WHERE cod_pieza like '%$piezaDTO.getCod_pieza()%' and nombre like '%$piezaDTO->getNombre()%'";
     	}
     }
+*/
 
     public function buscarPieza($codigo){
         $exito = false;

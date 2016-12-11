@@ -2,6 +2,7 @@
 
 include_once "./app/model/model.php";
 require_once "./app/model/dto/pedidoDTO.php";
+include_once "./app/model/util/classUtil.php";
 
 class PedidoDAO extends Model{
 
@@ -19,7 +20,6 @@ class PedidoDAO extends Model{
                     values ('$cod_emisor', '$esConse', '$fecha', '$fecha_entrega', '$tipo', 'Pendiente')";
         }
 
-		
 		$this->connect();
 		$this->query($consulta);
 		$this->terminate();
@@ -34,7 +34,8 @@ class PedidoDAO extends Model{
         $this->terminate();
 
         while($row = mysqli_fetch_array($query)){
-        	$pedido = new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
+        	$pedido = new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], 
+                $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
         	array_unshift($array, $pedido);
         }
         return $array;
@@ -55,7 +56,10 @@ class PedidoDAO extends Model{
             }
         }
 
-        $insert = "UPDATE pedido SET cod_pedido ='".$PedidoDTO->getCod_pedido()."', cod_emisor = '".$PedidoDTO->getCod_emisor()."', cod_receptor = '".$PedidoDTO->getCod_receptor()."', fecha_pedido = '".$PedidoDTO->getFecha_pedido()."', fecha_entrega = '".$PedidoDTO->getFecha_entrega()."', estado = '".$PedidoDTO->getEstado()."', tipo = '".$PedidoDTO->getTipo()."' WHERE cod_pedido =".$cod_pedido."";
+        $insert = "UPDATE pedido SET cod_pedido ='".$PedidoDTO->getCod_pedido()."', cod_emisor = '".$PedidoDTO->getCod_emisor().
+            "', cod_receptor = '".$PedidoDTO->getCod_receptor()."', fecha_pedido = '".$PedidoDTO->getFecha_pedido().
+                "', fecha_entrega = '".$PedidoDTO->getFecha_entrega()."', estado = '".$PedidoDTO->getEstado().
+                    "', tipo = '".$PedidoDTO->getTipo()."' WHERE cod_pedido =".$cod_pedido."";
         $this->connect();
         $this->query($insert);
         $this->terminate();
@@ -67,8 +71,9 @@ class PedidoDAO extends Model{
         $this->connect();
     	$query = mysqli_fetch_array($this->query($consulta));
     	$this->terminate();
-        $array = array($query['cod_pedido'],$this->consultarNombreEntidad($query['cod_emisor']), $this->consultarNombreEntidad($query['cod_receptor']),
-                     $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo'], $query['cod_receptor'] );
+        $array = array($query['cod_pedido'],$this->consultarNombreEntidad($query['cod_emisor']), 
+            $this->consultarNombreEntidad($query['cod_receptor']),$query['fecha_pedido'], $query['fecha_entrega'],
+                 $query['estado'], $query['tipo'], $query['cod_receptor'] );
         return $array;
     }
 
@@ -77,7 +82,8 @@ class PedidoDAO extends Model{
     	$this->connect();
     	$query = mysqli_fetch_array($this->query($consulta));
     	$this->terminate();
-    	return new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
+    	return new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], 
+        $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
     }
 
     public function consultarNombreEntidad($id){
@@ -94,6 +100,101 @@ class PedidoDAO extends Model{
         return $query['cod_sucursal'];
     }
     
+    public function busquedaFiltrada($nom_emisor, $nom_receptor, $cod_pedido){
+        $consulta = $this->componerConsulta($nom_emisor, $nom_receptor, $cod_pedido);
+        $this->connect();
+        $query = $this->query($consulta);
+        $this->terminate();
+        $array = array();
+        while($row = mysqli_fetch_array($query)){
+        	$pedido = new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], 
+                $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
+        	array_unshift($array, $pedido);
+        }
+        return $array;
+    }
+/*
+atribute 1 = nombre emisor
+atribute 2 = nombre receptor
+atribute 3 = codigo pedido
+atribute 4 = estado pedido 
+atribute 5 = tipo
+*/
+    private function componerConsulta2($ClassUtil){
+        $consulta = "SELECT * FROM pedido WHERE ";
+        if($ClassUtil->getAtribute1() != ""){
+            $consulta .= "cod_receptor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$ClassUtil->getAtribute1()%') ";
+            if($ClassUtil->getAtribute2() != ""){
+                $consulta .= "and cod_emisor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$ClassUtil->getAtribute2()%') ";
+            }
+            if($ClassUtil->getAtribute3() != ""){
+                $consulta .= "and cod_pedido LIKE '%$ClassUtil->getAtribute3()%' ";
+            }
+            if($ClassUtil->getAtribute4() != ""){
+                $consulta .= "and estado LIKE '%$ClassUtil->getAtribute4()%' ";
+            }
+            if($ClassUtil->getAtribute5() != ""){
+                $consulta .= "and tipo LIKE '%$ClassUtil->getAtribute5()%' ";
+            }
+        }else{
+            if ($ClassUtil->getAtribute2() != ""){
+                $consulta .= "cod_emisor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$ClassUtil->getAtribute2()%') ";
+                if($ClassUtil->getAtribute3() != ""){
+                    $consulta .= "and cod_pedido LIKE '%$ClassUtil->getAtribute3()%' ";
+                }
+                if($ClassUtil->getAtribute4() != ""){
+                    $consulta .= "and estado LIKE '%$ClassUtil->getAtribute4()%' ";
+                }
+                if($ClassUtil->getAtribute5() != ""){
+                    $consulta .= "and tipo LIKE '%$ClassUtil->getAtribute5()%' ";
+                }
+            }else{
+                if($ClassUtil->getAtribute3() != ""){
+                    $consulta .= "cod_pedido LIKE '%$ClassUtil->getAtribute3()%' ";
+                    if($ClassUtil->getAtribute4() != ""){
+                        $consulta .= "and estado LIKE '%$ClassUtil->getAtribute4()%' ";
+                    }
+                    if($ClassUtil->getAtribute5() != ""){
+                        $consulta .= "and tipo LIKE '%$ClassUtil->getAtribute5()%' ";
+                    }
+                }else{
+                    if($ClassUtil->getAtribute4() != ""){
+                        $consulta .= "estado LIKE '%$ClassUtil->getAtribute4()%' ";
+                        if($ClassUtil->getAtribute5() != ""){
+                            $consulta .= "and tipo LIKE '%$ClassUtil->getAtribute5()%' ";
+                        }
+                    }else{
+                        $consulta .= "tipo LIKE '%$ClassUtil->getAtribute5()%' ";
+                    }
+                }
+            }
+        }
+        return $consulta;
+    }
+    
+    private function componerConsulta($nom_emisor, $nom_receptor, $cod_pedido){
+        $consulta = "SELECT * FROM pedido WHERE ";
+        if($nom_emisor != ""){
+            $consulta .= "cod_receptor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$nom_emisor%') ";
+            if($nom_receptor != ""){
+                $consulta .= "and cod_emisor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$nom_receptor%') ";
+            }
+            if($cod_pedido != ""){
+                $consulta .= "and cod_pedido LIKE '%$cod_pedido%' ";
+            }
+        }else{
+            if ($nom_receptor != ""){
+                $consulta .= "cod_emisor in (SELECT codigo FROM entidad WHERE nombre LIKE '%$nom_receptor%') ";
+                if($cod_pedido != ""){
+                    $consulta .= "and cod_pedido LIKE '%$cod_pedido%' ";
+                }
+            }else{
+                $consulta .= "cod_pedido LIKE '%$cod_pedido%' ";
+            }
+        }
+        return $consulta;
+    }
+
 }
 
 ?>
