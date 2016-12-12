@@ -13,7 +13,9 @@ class EntidadDAO extends Model{
         if($this->buscarEntidad($EntidadDTO->getCod_entidad())){
             return "ERROR AL REGISTRAR! LA ENTIDAD YA EXISTE";
         }
-        $insert = "INSERT INTO `entidad` (`codigo`, `nombre`, `direccion`, `ciudad`, `cod_sucursal`) VALUES ('".$EntidadDTO->getCod_entidad()."','".$EntidadDTO->getNombre()."','".$EntidadDTO->getDireccion()."', '".$EntidadDTO->getCiudad()."', '".$EntidadDTO->getCod_sucursal()."')";
+        $insert = "INSERT INTO `entidad` (`codigo`, `nombre`, `direccion`, `ciudad`, `cod_sucursal`) VALUES (
+            '".$EntidadDTO->getCod_entidad()."','".$EntidadDTO->getNombre()."','".$EntidadDTO->getDireccion()."', 
+            '".$EntidadDTO->getCiudad()."', '".$EntidadDTO->getCod_sucursal()."')";
         $this->connect();
         $this->query($insert);
         $this->terminate();
@@ -144,7 +146,7 @@ class EntidadDAO extends Model{
         }
         return $array;
     }
-
+/*
     private  function componerConsulta($EntidadDTO){
 
         if ($EntidadDTO->getCod_entidad() != "" && $EntidadDTO->getNombre() == "" && $EntidadDTO->getDireccion() == "" && $EntidadDTO->getCiudad() == "") {
@@ -207,6 +209,45 @@ class EntidadDAO extends Model{
             return "SELECT * FROM entidad WHERE codigo like '%$EntidadDTO->getCod_entidad()%' and nombre like '%$EntidadDTO->getNombre()%' and direccion like '%EntidadDTO->getDireccion()%' and ciudad like '%EntidadDTO->getCiudad()%'";
         }
     }
+*/
+
+     private  function componerConsulta($EntidadDTO){
+         $consulta = "SELECT * FROM entidad WHERE";
+        if($EntidadDTO->getCod_entidad() != ""){
+            $consulta .= "codigo like '%$EntidadDTO->getCod_entidad()%' ";
+            if($EntidadDTO->getNombre() != ""){
+                $consulta .= "and nombre l ike '%$EntidadDTO->getNombre()%' ";
+            }
+            if($EntidadDTO->getDireccion() != ""){
+                $consulta .= "and direccion like '%$EntidadDTO->getDireccion()%' ";
+            }
+            if($EntidadDTO->getCiudad() != ""){
+                $consulta .= "and ciudad like '%$EntidadDTO->getCiudad()%' ";
+            }
+        }else{
+            if($EntidadDTO->getNombre() != ""){
+                $consulta .= " nombre like '%$EntidadDTO->getNombre()%' ";
+                if($EntidadDTO->getDireccion() != ""){
+                    $consulta .= "and direccion like '%$EntidadDTO->getDireccion()%' ";
+                }
+                if($EntidadDTO->getCiudad() != ""){
+                    $consulta .= "and ciudad like '%$EntidadDTO->getCiudad()%' ";
+                }
+            }else{
+                if($EntidadDTO->getDireccion() != ""){
+                    $consulta .= "direccion like '%$EntidadDTO->getDireccion()%' ";
+                    if($EntidadDTO->getCiudad() != ""){
+                        $paconsultart2 .= "and ciudad like '%$EntidadDTO->getCiudad()%' ";
+                    }
+                }else{
+                    if($EntidadDTO->getCiudad() != ""){
+                    $consulta .= "ciudad like '%$EntidadDTO->getCiudad()%' ";
+                    }
+                }
+            }
+        }
+        return $consulta;
+     }
 
 }
 

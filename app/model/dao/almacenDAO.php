@@ -76,7 +76,8 @@ class AlmacenDAO extends Model{
             return false;
         }
         $stock = $almacen->getStock()-$cantidad;
-        $consulta  = "UPDATE almacen SET stock ='".$stock."' WHERE cod_sucursal = ".$almacen->getCod_sucursal()." and cod_pieza = ".$almacen->getCod_pieza()."";
+        $consulta  = "UPDATE almacen SET stock ='".$stock."' WHERE cod_sucursal = ".$almacen->getCod_sucursal().
+            " and cod_pieza = ".$almacen->getCod_pieza()."";
         return true;
     }
     

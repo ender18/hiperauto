@@ -60,17 +60,20 @@ class PiezaXPedidoDAO extends Model{
     	return $array;
     }
 
+<<<<<<< HEAD
+    public function listarPiezasPedido($cod_pedido){
+    	$consulta = "SELECT pe.cantidad, p.cod_pieza, p.nombre  FROM piezaXpedido pe inner join 
+            pieza p on pe.cod_pieza=p.cod_pieza where pe.cod_pedido=".$cod_pedido."";
+=======
     public function listarPiezasPedido1($cod_pedido){
     	$consulta = "SELECT pe.cantidad, p.cod_pieza, p.nombre  FROM piezaXpedido pe inner join pieza p on pe.cod_pieza=p.cod_pieza where pe.cod_pedido=".$cod_pedido."";
+>>>>>>> origin/master
     	$this->connect();
     	$query = $this->query($consulta);
     	$this->terminate();
         return $query;
     }
-
-
-
-
+    
     public function modificarPiezaPedido(){
 
     }
@@ -81,21 +84,7 @@ class PiezaXPedidoDAO extends Model{
     	$this->query($sentencia);
     	$this->terminate();
     }
-
-    public function listarPiezasPedido($cod_pedido){
-        $consulta = "SELECT cod_pieza, cantidad FROM piezaXpedido WHERE cod_pedido = $cod_pedido";
-        $this->connect();
-        $array = array();
-        $query = $this->query($consulta);
-        $this->terminate();
-
-        while ($row = mysqli_fetch_array($query)) {
-            $classUtil = new ClassUtil("", $row['cod_pieza'], $row['cantidad'], "", "", "");
-            array_unshift($array, $classUtil);
-        }
-        return $array;
-    }
-
+    
     public function buscarPiezaPedido($codPieza, $cod_pedido){
     	$exito = false;
         $queryExist = "SELECT count(*) as conteo from piezaXpedido where (cod_pedido = $cod_pedido and cod_pieza = $cod_pieza)";
