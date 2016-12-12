@@ -106,6 +106,11 @@ class UserModel extends Model {
         return $this->piezaXPedidoDAO->listarPiezasPedido($id_pedido);
     }
 
+    public function buscarPedido($codPedido){
+        return $this->pedidoDAO->buscarPedido($codPedido);
+        
+    }
+
 
    
     function agregarPiezaPedido($cod_receptor, $codPedido, $codPieza, $cantidad){
@@ -122,7 +127,7 @@ class UserModel extends Model {
     
 
 
-    function listarPedidos(){
+    function mostrarPedidos(){
         return $this->pedidoDAO->listarPedidos();
     }
 
@@ -145,6 +150,7 @@ class UserModel extends Model {
         return $classUtil;
     }
 
+    
 }
 
 ?>

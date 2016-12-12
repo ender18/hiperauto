@@ -121,24 +121,22 @@ class User extends Controller {
      }
 
      public function realizarPedidoFormulario($form){
-         echo $form['fecha_entrega'];
          $fecha1 = explode("-", $form['fecha_entrega']);
          $array = getdate();
+         $resta = ($array['year']-$fecha1[0])+($array['mon']-$fecha1[1])+($array['mday']-$fecha1[2]);
        
          if($form['cod_emisor']==$form['cod_receptor']){
              $mensaje="ERROR ! EL CLIENTE Y EL PROVEEDOR NO PUEDE SER EL MISMO, INTENTELO DE NUEVO";             
              echo "<script language=JavaScript>alert('".$mensaje."');</script>";
              $this->realizarPedido();
              
-             }else if($fecha1[0]<$array['year'] && $fecha1[1]<$array['mon'] && $fecha1[2]<$array['mday']){
+             }else if($resta>0){
                  $mensaje="ERROR ! LA FECHA DE ENTREGA ES MENOR A LA DE HOY, INTENTELO DE NUEVO";             
              echo "<script language=JavaScript>alert('".$mensaje."');</script>";
              $this->realizarPedido();
 
              }
-             
-             
-             
+
              else{
 
 
@@ -161,7 +159,6 @@ class User extends Controller {
             $htmlProductos.="<option value='".$row['cod_pieza']."'>".$row['cod_pieza']." - ".$row['nombre']." - Disp:".$row['stock']."</option>";
 
         }
-
         
         if($htmlProductos==""){
                 $htmlProductos.="<option >NO HAY PRODUCTOS</option>";
@@ -220,6 +217,175 @@ class User extends Controller {
         $this->userModel->eliminarPiezaPedido($get);
         $this->mostrarPiezasPedidos($get['cod_pedido']);
     }
+
+    public function consultarPedidos(){
+        $registroSucursal = $this->getTemplate("./app/views/accion/listaPedidos.html");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $registroSucursal);
+        $listadoPedidos = $this->userModel->mostrarPedidos();
+        $tablaHtmlCompleta="";
+
+        foreach($listadoPedidos as $element) {
+            $tablaHtml=$this->getTemplate("./app/views/components/tablaSucursales.html");
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_pedido());
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getCod_emisor());
+            $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getCod_receptor() );
+            $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getFecha_pedido());
+            $var1="<a href='index.php?mode=verDetallePedido&id=".$element->getCod_pedido()."'>
+            <button type='button' class='btn btn-success'>Ver detalle</button></a>&nbsp<a href='index.php?mode=editarPedido&id=".$element->getCod_pedido()."'>
+            <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+            <button onclick='realizarAjax(".$element->getCod_pedido().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+        
+        $tablaHtmlCompleta.=$tablaHtml;
+        }
+        $this->view = $this->renderView($this->view, "{{TITULO}}","Listado de Pedidos");
+        $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtmlCompleta);
+        $this->showView($this->view);
+
+
+    }
+
+    public function eliminarPedido($form){
+        $this->userModel->eliminarPedido($form['id']);
+        $listadoPedidos = $this->userModel->mostrarPedidos();
+        $tablaHtmlCompleta="";
+
+        foreach($listadoPedidos as $element) {
+            $tablaHtml=$this->getTemplate("./app/views/components/tablaSucursales.html");
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $element->getCod_pedido());
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$element->getCod_emisor());
+            $tablaHtml = $this->renderView($tablaHtml, "{{direccion}}",$element->getCod_receptor() );
+            $tablaHtml = $this->renderView($tablaHtml, "{{ciudad}}", $element->getFecha_pedido());
+            $var1="<a href='index.php?mode=verDetallePedido&id=".$element->getCod_pedido()."'>
+            <button type='button' class='btn btn-success'>Ver detalle</button></a>&nbsp<a href='index.php?mode=editarPedido&id=".$element->getCod_pedido()."'>
+            <button type='button' class='btn btn-warning'>Editar</button></a>&nbsp           
+            <button onclick='realizarAjax(".$element->getCod_pedido().")' type='button' class='btn btn-danger borrar'>Borrar</button>";
+            $tablaHtml = $this->renderView($tablaHtml, "{{opciones}}", $var1 );
+        
+        $tablaHtmlCompleta.=$tablaHtml;
+        }
+        
+        $this->showView($tablaHtmlCompleta);
+
+    }
+
+    
+
+    public function verDetallePedido($cod_pedido){
+         
+         $element = $this->userModel->buscarPedido($cod_pedido['id']);
+         
+         $agregarPiezasPedido = $this->getTemplate("./app/views/accion/mostrarDetallePedido.html");
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{cod_pedido}}",$element->getCod_pedido());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{emisor}}",$element->getCod_emisor());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{receptor}}",$element->getCod_receptor());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{fecha_pedido}}",$element->getFecha_pedido());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{fecha_entrega}}",$element->getFecha_entrega());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{estado}}",$element->getEstado());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{tipo}}",$element->getTipo());
+         
+         $htmlProductos="";
+         
+
+        $result = $this->userModel->listarPiezasPedido($cod_pedido['id']);
+        $tablaHtmlcompleta="";
+        
+        while($row = mysqli_fetch_array($result)){
+
+            $tablaHtml=$this->getTemplate("./app/views/components/tabla-detalles-pedido.html");
+             $tablaHtml = $this->renderView($tablaHtml, "{{cantidad}}",$row['cantidad']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $row['cod_pieza']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$row['nombre']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{opcion}}", "-" );
+            $tablaHtmlcompleta.=$tablaHtml;
+        }
+
+        if($tablaHtmlcompleta==""){
+            $contenido="<br><h4 id='titulo'>NO HAY PRODUCTOS EN ESTE PEDIDO</h4>";
+            
+        }else{
+        $contenido=$this->getTemplate("./app/views/components/tabla-pedido.html");
+        $contenido = $this->renderView($contenido, "{{CONTENIDO}}", $tablaHtmlcompleta);
+        $variable="<hr>
+				<h3 id='titulo'>Piezas</h3>
+				<br>";
+        $contenido=$variable.$contenido;
+        }
+
+        
+
+        $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{PRODUCTOS}}", $contenido);
+         $this->view = $this->renderView($this->view, "{{TITULO}}","Detalles del pedido");
+         $this->view = $this->renderView($this->view,"{{CONTENIDO}}", $agregarPiezasPedido);
+         
+         $this->showView($this->view);
+        
+     }
+
+     public function editarPedido($cod_pedido){
+
+         $element = $this->userModel->buscarPedido($cod_pedido['id']);
+         
+
+         $agregarPiezasPedido = $this->getTemplate("./app/views/accion/registrarPiezasPedido1.html");
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{cod_pedido}}",$element->getCod_pedido());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{emisor}}",$element->getCod_emisor());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{receptor}}",$element->getCod_receptor());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{fecha_pedido}}",$element->getFecha_pedido());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{fecha_entrega}}",$element->getFecha_entrega());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{estado}}",$element->getEstado());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{tipo}}",$element->getTipo());
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{cod_receptor}}",$element->getCod_proveedor());
+         
+
+         $piezas = $this->userModel->verAlmacen($element->getCod_proveedor());
+         $htmlProductos="";         
+        
+          while($row = mysqli_fetch_array($piezas)){
+            $htmlProductos.="<option value='".$row['cod_pieza']."'>".$row['cod_pieza']." - ".$row['nombre']." - Disp:".$row['stock']."</option>";
+
+        }
+        
+        if($htmlProductos==""){
+                $htmlProductos.="<option >NO HAY PRODUCTOS</option>";
+                $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{deshabilitar}}","disabled");
+
+        }
+
+         $result = $this->userModel->listarPiezasPedido($cod_pedido['id']);
+        $tablaHtmlcompleta="";
+        
+        while($row = mysqli_fetch_array($result)){
+
+            $tablaHtml=$this->getTemplate("./app/views/components/tabla-detalles-pedido.html");
+             $tablaHtml = $this->renderView($tablaHtml, "{{cantidad}}",$row['cantidad']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{codigo}}", $row['cod_pieza']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{nombre}}",$row['nombre']);
+            $tablaHtml = $this->renderView($tablaHtml, "{{opcion}}", "<button onclick='realizarAjax1(".$cod_pedido['id'].",".$row['cod_pieza'].")' type='button' class='btn btn-danger borrar'>Borrar</button>" );
+            $tablaHtmlcompleta.=$tablaHtml;
+        }
+
+        if($tablaHtmlcompleta==""){
+            $contenido="<br><h4 id='titulo'>NO HAY PRODUCTOS EN ESTE PEDIDO</h4>";
+            
+        }else{
+        $contenido=$this->getTemplate("./app/views/components/tabla-pedido.html");
+        $contenido = $this->renderView($contenido, "{{CONTENIDO}}", $tablaHtmlcompleta);
+        }
+
+
+        $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{PRODUCTOS1}}", $contenido);
+
+         
+         $agregarPiezasPedido = $this->renderView($agregarPiezasPedido, "{{PRODUCTOS}}",$htmlProductos);
+         $this->view = $this->renderView($this->view, "{{TITULO}}","Agregar piezas");
+         $this->view = $this->renderView($this->view,"{{CONTENIDO}}", $agregarPiezasPedido);
+         $this->showView($this->view);
+
+
+
+
+     }
 
 
 // Metodos pieza
