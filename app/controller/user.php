@@ -432,7 +432,7 @@ class User extends Controller {
         $tablaHtml = $this->getTemplate("./app/views/accion/editaPieza.html");
         $element = $this->userModel->buscarPieza($id);
         $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element->getCod_pieza());
-        echo $element->getCod_pieza()."";
+        echo $element->getNombre();
         $tablaHtml = renderView($tablaHtml, "{{nombre}}", $element->getNombre());
         $this->view = $this->renderView($this->view, "{{TITULO}}","Editar Pieza");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtml);

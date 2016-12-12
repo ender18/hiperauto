@@ -107,8 +107,7 @@ class PiezaDAO extends Model{
          $query = $this->query($consulta);
         $this->terminate();
         $row =mysqli_fetch_array($query);
-        array_unshift($array, new PiezaDTO($row["cod_pieza"], $row["nombre"]));
-        return $array;
+        return new PiezaDTO($row["cod_pieza"], $row["nombre"]);
         
     }
     
