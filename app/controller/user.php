@@ -77,7 +77,7 @@ class User extends Controller {
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
      }
 
-     public function eliminarSucursal($form){
+    public function eliminarSucursal($form){
         $this->userModel->eliminarSucursal($form['id']);
         $listadoSucursales = $this->userModel->mostrarSucursales();
         $tablaHtmlCompleta="";
@@ -265,21 +265,24 @@ class User extends Controller {
     public function editarPieza ($id) {
         $tablaHtml = $this->getTemplate("./app/views/accion/editaPieza.html");
         $element = $this->userModel->buscarPieza($id);
-        $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element[0]->getCod_pieza());
-        $tablaHtml = renderView($tablaHtml, "{{nombre}}", $element[0]->getNombre());
+        $tablaHtml = renderView($tablaHtml, "{{codigo}}", $element->getCod_pieza());
+        echo $element->getCod_pieza()."";
+        $tablaHtml = renderView($tablaHtml, "{{nombre}}", $element->getNombre());
         $this->view = $this->renderView($this->view, "{{TITULO}}","Editar Pieza");
         $this->view = $this->renderView($this->view, "{{CONTENIDO}}", $tablaHtml);
         $this->showView($this->view);
+
     }
 
     public function editarPiezaFormulario($formulario){
         $mensaje = $this->userModel->editarPiezaFormulario($formulario);
         $this->consultarPiezas();
         echo "<script language=JavaScript>alert('".$mensaje."');</script>";
-     }
+    }
+
     public function eliminarPieza($form){
         $this->userModel->eliminarPieza($form['id']);
-        $listadoPiezas = $this->userModel->mostrarPieza();
+        $listadoPiezas = $this->userModel->listarPieza();
         $tablaHtmlCompleta="";
         foreach($listadoPiezas as $element) {
             $tablaHtml=$this->getTemplate("./app/views/components/tablaPiezas.html");

@@ -20,11 +20,10 @@ class PiezaDAO extends Model{
     
     public function listarPiezas(){
         $consulta = "SELECT * FROM pieza order by cod_pieza desc";
-        $this->connect();
         $array = array();
+        $this->connect();
         $query = $this->query($consulta);
         $this->terminate();
-
         while($row = mysqli_fetch_array($query)){
             $pieza = new PiezaDTO($row["cod_pieza"], $row["nombre"]);
             array_unshift($array,$pieza);
@@ -34,7 +33,7 @@ class PiezaDAO extends Model{
     }
     
     public function eliminarPieza($codigo){
-        $consulta = "DELETE FROM pieza WHERE cod_pieza = $codigo";
+        $consulta = "DELETE FROM pieza WHERE cod_pieza = ".$codigo."";
         $this->connect();
         $query = $this->query($consulta);
         $this->terminate();
@@ -42,7 +41,7 @@ class PiezaDAO extends Model{
     }
     
     public function editarPieza($piezaDTO, $cod_pieza){
-        if($cod_pieza != $piezaDTO->getCod_Pieza()){
+        if($cod_pieza != $piezaDTO->getCod_pieza()){
             if($this->buscarPieza($piezaDTO->getCod_pieza())){
                  return "ERROR AL EDITAR! EL NUEVO CODIGO DE ESA PIEZA YA ESTA ASOCIADO CON OTRA, INTENTELO DE NUEVO";
             }
@@ -86,8 +85,8 @@ class PiezaDAO extends Model{
     }
 
     public function buscarPieza($codigo){
-        $exito = false;
-        $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza = $codigo)";
+       $exito = false;
+        $queryExist = "SELECT count(*) as conteo from pieza where (cod_pieza = ".$codigo.")";
         $this->connect();
         $consulta = $this->query($queryExist);
         $extraido = mysqli_fetch_array($consulta);
@@ -98,14 +97,19 @@ class PiezaDAO extends Model{
 
         $this->terminate();
         return $exito;
+
     }
 
     public function obtenerPieza($codigo){
-        $consulta = "SELECT * FROM pieza WHERE cod_pieza = $codigo";
+        $consulta = "SELECT * FROM pieza WHERE (cod_pieza=".$codigo.")";
+         $array = array();
         $this->connect();
-        $query = mysqli_fetch_array($this->query($consulta));
+         $query = $this->query($consulta);
         $this->terminate();
-        return new PiezaDTO($query['cod_pieza'], $query['nombre']);
+        $row =mysqli_fetch_array($query);
+        array_unshift($array, new PiezaDTO($row["cod_pieza"], $row["nombre"]));
+        return $array;
+        
     }
     
 }

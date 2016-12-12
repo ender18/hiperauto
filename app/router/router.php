@@ -49,6 +49,12 @@ class Router {
                 case "finalizarPedido":
                     $this->user->finalizarPedido();
                     break;
+                case "eliminarPieza":
+                    $this->user->eliminarPieza($_GET);
+                    break;
+                case "editarPieza":
+                    $this->user->editarPieza($_GET["id"]);
+                    break;
 
                     default:
                     header("Location:index.php");

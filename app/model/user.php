@@ -78,8 +78,6 @@ class UserModel extends Model {
        return $this->piezaDAO->agregarPieza($pieza);
     }
 
-
-
     function eliminarPiezaPedido($get){
         return $this->piezaXPedidoDAO->eliminarPiezaPedido($get['cod_pedido'], $get['cod_pieza']);
     }
@@ -89,7 +87,7 @@ class UserModel extends Model {
     }
 
     function buscarPieza($id){
-        return $this->entidadDAO->buscarPieza($id);
+        return $this->piezaDAO->obtenerPieza($id);
     }
 
     function listarPieza(){
