@@ -78,7 +78,10 @@ class UserModel extends Model {
        return $this->piezaDAO->agregarPieza($pieza);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
     function eliminarPiezaPedido($get){
         return $this->piezaXPedidoDAO->eliminarPiezaPedido($get['cod_pedido'], $get['cod_pieza']);
     }
@@ -88,7 +91,7 @@ class UserModel extends Model {
     }
 
     function buscarPieza($id){
-        return $this->entidadDAO->buscarPieza($id);
+        return $this->piezaDAO->obtenerPieza($id);
     }
 
     function listarPieza(){
@@ -106,7 +109,17 @@ class UserModel extends Model {
 
     function listarPiezasPedido($id_pedido){
         return $this->piezaXPedidoDAO->listarPiezasPedido($id_pedido);
+<<<<<<< HEAD
     }   
+=======
+    }
+
+    public function buscarPedido($codPedido){
+        return $this->pedidoDAO->buscarPedido($codPedido);
+        
+    }
+
+>>>>>>> origin/master
 
     function agregarPiezaPedido($cod_receptor, $codPedido, $codPieza, $cantidad){
         $hayDisponibles= $this->almacenDAO->hayDisponibles($cod_receptor, $codPieza, $cantidad);
@@ -118,7 +131,14 @@ class UserModel extends Model {
         }
     }
 
+<<<<<<< HEAD
     function listarPedidos(){
+=======
+    
+
+
+    function mostrarPedidos(){
+>>>>>>> origin/master
         return $this->pedidoDAO->listarPedidos();
     }
 
@@ -140,10 +160,14 @@ class UserModel extends Model {
         return $classUtil;
     }
 
+<<<<<<< HEAD
     function busquedaFiltradaPedido($nom_emisor, $nom_receptor, $cod_pedido){
         return $this->pedidoDAO->busquedaFiltrada($nom_emisor, $nom_receptor, $cod_pedido);
     }
 
+=======
+    
+>>>>>>> origin/master
 }
 
 ?>

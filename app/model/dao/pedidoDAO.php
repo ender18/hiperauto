@@ -27,16 +27,21 @@ class PedidoDAO extends Model{
 	}
     
     public function listarPedidos(){
-        $consulta = "SELECT * FROM pedidos";
+        $consulta = "SELECT * FROM pedido";
         $this->connect();
         $array = array();
         $query = $this->query($consulta);
         $this->terminate();
 
         while($row = mysqli_fetch_array($query)){
+<<<<<<< HEAD
         	$pedido = new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], 
                 $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
         	array_unshift($array, $pedido);
+=======
+        	$pedido = new PedidoDTO($row['cod_pedido'], $this->consultarNombreEntidad($row['cod_emisor']), $this->consultarNombreEntidad($row['cod_receptor']), $row['fecha_pedido'], $row['fecha_entrega'], $row['estado'], $row['tipo']);
+        	array_push($array, $pedido);
+>>>>>>> origin/master
         }
         return $array;
     }
@@ -44,7 +49,7 @@ class PedidoDAO extends Model{
     public function eliminarPedido($codigo){
         $consulta = "DELETE FROM pedido WHERE cod_pedido = $codigo";
         $this->connect();
-        $this->query($query);
+        $this->query($consulta);
         $this->terminate();
         return "PEDIDO ELIMINADO EXITOSAMENTE!";
     }
@@ -82,8 +87,14 @@ class PedidoDAO extends Model{
     	$this->connect();
     	$query = mysqli_fetch_array($this->query($consulta));
     	$this->terminate();
+<<<<<<< HEAD
     	return new PedidoDTO($query['cod_pedido'], $query['cod_emisor'], $query['cod_receptor'], 
         $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
+=======
+        $pedido = new PedidoDTO($query['cod_pedido'], $this->consultarNombreEntidad($query['cod_emisor']), $this->consultarNombreEntidad($query['cod_receptor']), $query['fecha_pedido'], $query['fecha_entrega'], $query['estado'], $query['tipo']);
+    	$pedido->setCod_proveedor($query['cod_receptor']);
+        return $pedido;
+>>>>>>> origin/master
     }
 
     public function consultarNombreEntidad($id){

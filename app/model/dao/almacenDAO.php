@@ -45,6 +45,7 @@ class AlmacenDAO extends Model{
 
 
     function hayDisponibles($cod_receptor, $cod_pieza, $cantidad){
+
         $consulta = "SELECT stock FROM almacen WHERE cod_sucursal=".$cod_receptor." AND cod_pieza=".$cod_pieza."";
         $this->connect();
         $query = mysqli_fetch_array($this->query($consulta));

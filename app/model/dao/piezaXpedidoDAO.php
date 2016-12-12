@@ -60,9 +60,14 @@ class PiezaXPedidoDAO extends Model{
     	return $array;
     }
 
+<<<<<<< HEAD
     public function listarPiezasPedido($cod_pedido){
     	$consulta = "SELECT pe.cantidad, p.cod_pieza, p.nombre  FROM piezaXpedido pe inner join 
             pieza p on pe.cod_pieza=p.cod_pieza where pe.cod_pedido=".$cod_pedido."";
+=======
+    public function listarPiezasPedido1($cod_pedido){
+    	$consulta = "SELECT pe.cantidad, p.cod_pieza, p.nombre  FROM piezaXpedido pe inner join pieza p on pe.cod_pieza=p.cod_pieza where pe.cod_pedido=".$cod_pedido."";
+>>>>>>> origin/master
     	$this->connect();
     	$query = $this->query($consulta);
     	$this->terminate();

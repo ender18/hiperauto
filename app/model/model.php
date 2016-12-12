@@ -4,7 +4,10 @@ class Model {
     
     private $connection;
 
+<<<<<<< HEAD
 /*
+=======
+>>>>>>> origin/master
     public function connect(){
         $server="sandbox2.ufps.edu.co";
         $user="1151224";
@@ -13,15 +16,22 @@ class Model {
         $this->connection = mysqli_connect($server,$user,$pass,$bd) or  die(("Error " . mysqli_error($this->connection)));
     }
 
+<<<<<<< HEAD
     */
 
     public function connect(){
+=======
+   
+/*
+
+ public function connect(){
+>>>>>>> origin/master
         $server="localhost";
         $user="root";
         $pass="";
         $bd="1151224";
         $this->connection = mysqli_connect($server,$user,$pass,$bd) or  die(("Error " . mysqli_error($this->connection)));
-    }
+    }*/
 
 
     public function query($sql){

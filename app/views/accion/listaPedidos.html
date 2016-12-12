@@ -2,7 +2,7 @@
 	<div class='container contact'>
 		<div id="titulo">
 			<hr>
-			<h2><strong>Listado de Pieza</strong></h2>
+			<h2><strong>Listado de Pedidos</strong> <img src="./public/images/pedidos1.png"></h2>
 			<hr>
 
 			<div>
@@ -11,7 +11,9 @@
 					<thead>
 						<tr>
 							<th>Codigo</th>
-							<th>Nombre</th>
+							<th>Cliente</th>
+							<th>Proveedor</th>
+							<th>Fecha</th>
 							<th>Opciones</th>
 
 						</tr>
@@ -26,8 +28,8 @@
 </div>
 
 <script>
-				  function realizarAjax(idPieza) {
-					var url = "index.php?mode=eliminarPieza&id="+idPieza;
+				  function realizarAjax(idPedido) {
+					var url = "index.php?mode=eliminarPedido&id="+idPedido;
                     //var con el id del elemento html en que desea insertar la info
                     //despues del procesamiento
                     var id = "#busqueda_exitosa";
